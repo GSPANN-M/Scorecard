@@ -1,0 +1,60 @@
+<Alloy>
+	<Window class="vgroup">
+		<View class="nav-bar">
+			<Label id="titleLbl" class="nav-bar-title h1 fg-white" />
+		</View>
+		<View id="tileContainer" class="hgroup no-hwrap">
+			<ScrollView id="columnOne" class="left width-32 vgroup">
+				<View  id="innovativeProductsView" class="width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/innovative_products.png" />
+				</View>
+				<View  id="timelySolutionsView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/timely_solutions.png" />
+				</View>
+				<View  id="partneringForMutualBenefitView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/partnering_for_mutual_benefit.png" />
+				</View>
+				<View  id="toolUpgradesView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/tool_upgrades.png" />
+				</View>
+				<View  id="equipmentPerformanceView" class="padding-top padding-bottom width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/equipment_performance.png" />
+				</View>
+			</ScrollView>
+			<ScrollView id="columnTwo" class="from-left width-32 vgroup">
+				<View  id="toolQualityView" class="width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/tool_quality.png" />
+				</View>
+				<View  id="sparesPerformanceView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/spares_performance.png" />
+				</View>
+				<View  id="serviceContractsView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/service_contracts.png" />
+				</View>
+				<View  id="technicalSupportView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/technical_support.png" />
+				</View>
+				<View  id="meetingCommitmentsView" class="padding-top padding-bottom width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/meeting_commitments.png" />
+				</View>
+			</ScrollView>
+			<ScrollView id="columnThree" class="from-left width-32 vgroup">
+				<View  id="easeOfDoingBusinessView" class="width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/ease_of_doing_business.png" />
+				</View>
+				<View  id="fastResponseToEscalationsView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/fast_response_to_escalations.png" />
+				</View>
+				<View  id="toolInstallationView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/tool_installation.png" />
+				</View>
+				<View  id="onTimeDeliveryView" class="padding-top width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/on_time_delivery.png" />
+				</View>
+				<View  id="industryLeadershipView" class="padding-top padding-bottom width-100 auto-height">
+					<ImageView class="touch-disabled fill-width auto-height" image="/images/industry_leadership.png" />
+				</View>
+			</ScrollView>
+		</View>
+	</Window>
+</Alloy>
