@@ -1,0 +1,57 @@
+"#tileContainer":{
+	left: "2%",
+	right: "2%"
+},
+"#titleLbl":{
+	text: "Customer Survey"
+},
+".from-left":{
+	left: "2%"
+},
+"#innovativeProductsView":{
+	action: "innovative_products"
+},
+"#timelySolutionsView":{
+	action: "timely_solutions"
+},
+"#partneringForMutualBenefitView":{
+	action: "partnering_for_mutual_benefit"
+},
+"#toolUpgradesView":{
+	action: "tool_upgrades"
+},
+"#equipmentPerformanceView":{
+	action: "equipment_performance"
+},
+"#toolQualityView":{
+	action: "tool_quality",
+	image: "/images/tool_quality.png"
+},
+"#sparesPerformanceView":{
+	action: "spares_performance",
+	image: "/images/spares_performance.png"
+},
+"#serviceContractsView":{
+	action: "service_contracts"
+},
+"#technicalSupportView":{
+	action: "technical_support"
+},
+"#meetingCommitmentsView":{
+	action: "meeting_commitments"
+},
+"#easeOfDoingBusinessView":{
+	action: "ease_of_doing_business"
+},
+"#fastResponseToEscalationsView":{
+	action: "fast_response_to_escalations"
+},
+"#toolInstallationView":{
+	action: "tool_installation"
+},
+"#onTimeDeliveryView":{
+	action: "on_time_delivery"
+},
+"#industryLeadershipView":{
+	action: "industry_leadership"
+}
