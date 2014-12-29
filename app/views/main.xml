@@ -1,7 +1,7 @@
 <Alloy>
 	<Window class="vgroup">
 		<View class="nav-bar">
-			<Label id="titleLbl" class="nav-bar-title fill h1 fg-white text-center" />
+			<Label id="titleLbl" class="top fill h1 fg-white text-center" />
 		</View>
 		<View id="tileContainer" class="hgroup no-hwrap">
 			<ScrollView id="columnOne" class="left width-32 vgroup">

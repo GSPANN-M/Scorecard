@@ -4,12 +4,10 @@
 	"env:test": {},
 	"env:production": {},
 	"os:android": {
-		"navBarTop": 0,
 		"navBarHeight": 48
 	},
 	"os:blackberry": {},
 	"os:ios": {
-		"navBarTop": 20,
 		"navBarHeight": 68
 	},
 	"os:mobileweb": {},

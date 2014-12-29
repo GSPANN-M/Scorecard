@@ -100,7 +100,4 @@
 ".nav-bar":{
 	height: Alloy.CFG.navBarHeight,
 	backgroundColor: "#D66360"
-},
-".nav-bar-title":{
-	top: Alloy.CFG.navBarTop
 }
