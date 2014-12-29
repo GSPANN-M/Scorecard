@@ -1,4 +1,0 @@
-Scorecard
-=========
-
-Scorecard App
