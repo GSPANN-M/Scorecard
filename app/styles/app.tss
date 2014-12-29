@@ -1,5 +1,5 @@
 "Window": {
-	backgroundImage: "/images/background.png",
+	backgroundImage: "/images/tile_background.png",
 	navBarHidden: true
 },
 ".top":{
@@ -47,6 +47,14 @@
 ".no-hwrap":{
 	horizontalWrap: false
 },
+".fill":{
+	width: Ti.UI.FILL,
+	height: Ti.UI.FILL
+},
+".auto":{
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE
+},
 ".auto-width":{
 	width: Ti.UI.SIZE
 },
@@ -85,6 +93,9 @@
 },
 ".fg-white":{
 	color: "#FFFFFF"
+},
+".text-center":{
+	textAlign: "center"
 },
 ".nav-bar":{
 	height: Alloy.CFG.navBarHeight,
