@@ -79,7 +79,7 @@
 },
 ".h1":{
 	font:{
-		fontFamily: "Roboto-Light",
+		fontFamily: "Lato-Regular",
 		fontSize: 24
 	}
 },
