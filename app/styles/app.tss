@@ -1,0 +1,95 @@
+"Window": {
+	backgroundImage: "/images/background.png",
+	navBarHidden: true
+},
+".top":{
+	top: 0
+},
+".bottom":{
+	bottom: 0
+},
+".left":{
+	left: 0
+},
+".right":{
+	right: 0
+},
+".padding-top":{
+	top: 5
+},
+".padding-bottom":{
+	bottom: 5
+},
+".padding-left":{
+	left: 5
+},
+".padding-right":{
+	right: 5
+},
+".margin-top":{
+	top: 10
+},
+".margin-bottom":{
+	bottom: 10
+},
+".margin-left":{
+	left: 10
+},
+".margin-right":{
+	right: 10
+},
+".vgroup":{
+	layout: "vertical"
+},
+".hgroup":{
+	layout: "horizontal"
+},
+".no-hwrap":{
+	horizontalWrap: false
+},
+".auto-width":{
+	width: Ti.UI.SIZE
+},
+".fill-width":{
+	width: Ti.UI.FILL
+},
+".width-100":{
+	width: "100%"
+},
+".width-95":{
+	width: "95%"
+},
+".width-90":{
+	width: "90%"
+},
+".width-32":{
+	width: "32%"
+},
+".auto-height":{
+	height: Ti.UI.SIZE
+},
+".fill-height":{
+	height: Ti.UI.FILL
+},
+".height-100":{
+	height: "100%"
+},
+".touch-disabled":{
+	touchEnabled: false
+},
+".h1":{
+	font:{
+		fontFamily: "Roboto-Light",
+		fontSize: 24
+	}
+},
+".fg-white":{
+	color: "#FFFFFF"
+},
+".nav-bar":{
+	height: Alloy.CFG.navBarHeight,
+	backgroundColor: "#D66360"
+},
+".nav-bar-title":{
+	top: Alloy.CFG.navBarTop
+}
