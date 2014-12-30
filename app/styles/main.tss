@@ -13,48 +13,117 @@
 	height: 1,
 	visible: false
 },
+"#columnOne":{
+	identifier: "columnOne"
+},
+"#columnTwo":{
+	identifier: "columnTwo"
+},
+"#columnThree":{
+	identifier: "columnThree"
+},
 "#industryLeadershipView":{
+	index: {
+		column: 1,
+		row: 1
+	},
 	action: "industry_leadership"
 },
 "#innovativeProductsView":{
+	index: {
+		column: 1,
+		row: 2
+	},
 	action: "innovative_products"
 },
 "#timelySolutionsView":{
+	index: {
+		column: 1,
+		row: 3
+	},
 	action: "timely_solutions"
 },
 "#partneringForMutualBenefitView":{
+	index: {
+		column: 1,
+		row: 4
+	},
 	action: "partnering_for_mutual_benefit"
 },
 "#toolUpgradesView":{
+	index: {
+		column: 1,
+		row: 5
+	},
 	action: "tool_upgrades"
 },
 "#equipmentPerformanceView":{
+	index: {
+		column: 2,
+		row: 1
+	},
 	action: "equipment_performance"
 },
 "#toolQualityView":{
+	index: {
+		column: 2,
+		row: 2
+	},
 	action: "tool_quality"
 },
 "#sparesPerformanceView":{
+	index: {
+		column: 2,
+		row: 3
+	},
 	action: "spares_performance"
 },
 "#serviceContractsView":{
+	index: {
+		column: 2,
+		row: 4
+	},
 	action: "service_contracts"
 },
 "#technicalSupportView":{
+	index: {
+		column: 2,
+		row: 5
+	},
 	action: "technical_support"
 },
 "#meetingCommitmentsView":{
+	index: {
+		column: 3,
+		row: 1
+	},
 	action: "meeting_commitments"
 },
 "#easeOfDoingBusinessView":{
+	index: {
+		column: 3,
+		row: 2
+	},
 	action: "ease_of_doing_business"
 },
 "#fastResponseToEscalationsView":{
+	index: {
+		column: 3,
+		row: 3
+	},
 	action: "fast_response_to_escalations"
 },
 "#toolInstallationView":{
+	index: {
+		column: 3,
+		row: 4
+	},
 	action: "tool_installation"
 },
 "#onTimeDeliveryView":{
+	index: {
+		column: 3,
+		row: 5
+	},
 	action: "on_time_delivery"
 }

@@ -94,6 +94,9 @@
 ".bg-white":{
 	backgroundColor: "#FFFFFF"
 },
+".bg-default":{
+	backgroundImage: "/images/tile_background.png"
+},
 ".fg-white":{
 	color: "#FFFFFF"
 },

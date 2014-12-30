@@ -1,6 +1,12 @@
 var args = arguments[0] || {},
+    animation = require('alloy/animation'),
     app = require("core"),
-    center;
+    scrollPoint = {
+	columnOne : 0,
+	columnTwo : 0,
+	columnThree : 0
+},
+    modalDict;
 
 function didOpen() {
 	app.init();
@@ -14,21 +20,18 @@ function didHideModal(e) {
 
 	Ti.App.removeEventListener("orientationChange", didOrientationChange);
 
-	var dict = {
-		top : OS_IOS ? center.y : center.y / app.device.logicalDensityFactor,
-		left : OS_IOS ? center.x : center.x / app.device.logicalDensityFactor,
-		width : 1,
-		height : 1,
-		duration : 500
-	},
-	    anim = Ti.UI.createAnimation(dict);
-	anim.addEventListener("complete", function onComplte() {
-		anim.removeEventListener("complete", onComplte);
-		$.modalView.applyProperties(_.extend(_.omit(dict, "duration"), {
-			visible : false
+	animation.fadeIn($.modalImg, 150, function() {
+		var anim = Ti.UI.createAnimation(_.extend(modalDict, {
+			duration : 300
 		}));
+		anim.addEventListener("complete", function onComplte() {
+			anim.removeEventListener("complete", onComplte);
+			$.modalView.applyProperties(_.extend(_.omit(modalDict, "duration"), {
+				visible : false
+			}));
+		});
+		$.modalView.animate(anim);
 	});
-	$.modalView.animate(anim);
 }
 
 function didOrientationChange(e) {
@@ -39,48 +42,54 @@ function didOrientationChange(e) {
 	});
 }
 
+function didScroll(e) {
+	scrollPoint[e.source.identifier] = OS_IOS ? e.y : e.y / app.device.logicalDensityFactor;
+}
+
 function didClickTile(e) {
 
 	var view = e.source,
+	    parent = view.getParent(),
+	    size = view.size,
 	    action = view.action,
+	    index = view.index,
+	    cIndex = index.column - 1,
+	    rIndex = index.row - 1,
+	    containerWidth = app.device.width - ((app.device.width / 100) * 4),
+	    containerFromLeft = (app.device.width / 100) * 2,
+	    top = rIndex * size.height,
+	    left = cIndex * size.width,
 	    device = app.getDeviceDimensions();
 
-	$.modalView.visible = true;
+	left += containerFromLeft + (((containerWidth / 100) * 2) * cIndex);
+	top += (rIndex * 5);
 
-	center = view.convertPointToView({
-		x : e.x,
-		y : e.y
-	}, $.template);
-	$.modalView.applyProperties({
-		top : OS_IOS ? center.y : center.y / app.device.logicalDensityFactor,
-		left : OS_IOS ? center.x : center.x / app.device.logicalDensityFactor
-	});
+	top -= scrollPoint[parent.identifier];
+
+	modalDict = {
+		top : top,
+		left : left,
+		width : size.width,
+		height : size.height,
+		visible : true
+	};
+	$.modalImg.image = view.children[0].image;
+	$.modalView.applyProperties(modalDict);
 
 	var dict = {
+		top : 0,
+		left : 0,
 		width : device.width,
 		height : device.height - Alloy.CFG.navBarHeight,
 		duration : 300
 	},
-	    animWH = Ti.UI.createAnimation(dict);
-	animWH.addEventListener("complete", function onComplteWH() {
-
-		animWH.removeEventListener("complete", onComplteWH);
+	    anim = Ti.UI.createAnimation(dict);
+	anim.addEventListener("complete", function onComplteWH() {
+		anim.removeEventListener("complete", onComplteWH);
 		$.modalView.applyProperties(_.omit(dict, "duration"));
-
-		var dictTL = {
-			top : 0,
-			left : 0,
-			duration : 200
-		},
-		    animTL = Ti.UI.createAnimation(dictTL);
-		animTL.addEventListener("complete", function onComplteTL() {
-			animTL.removeEventListener("complete", onComplteTL);
-			$.modalView.applyProperties(_.omit(dictTL, "duration"));
-		});
-		$.modalView.animate(animTL);
-
+		animation.fadeOut($.modalImg, 150);
 	});
-	$.modalView.animate(animWH);
+	$.modalView.animate(anim);
 
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
 

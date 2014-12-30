@@ -5,7 +5,7 @@
 		</View>
 		<View id="template" class="template">
 			<View id="tileContainer" class="hgroup no-hwrap">
-				<ScrollView id="columnOne" class="left width-32 vgroup">
+				<ScrollView id="columnOne" class="left width-32 vgroup" onScroll="didScroll">
 					<View id="industryLeadershipView" class="width-100 auto-height" onClick="didClickTile">
 						<ImageView class="touch-disabled fill-width auto-height" image="/images/industry_leadership.png" />
 					</View>
@@ -22,7 +22,7 @@
 						<ImageView class="touch-disabled fill-width auto-height" image="/images/tool_upgrades.png" />
 					</View>
 				</ScrollView>
-				<ScrollView id="columnTwo" class="from-left width-32 vgroup">
+				<ScrollView id="columnTwo" class="from-left width-32 vgroup" onScroll="didScroll">
 					<View id="equipmentPerformanceView" class="width-100 auto-height" onClick="didClickTile">
 						<ImageView class="touch-disabled fill-width auto-height" image="/images/equipment_performance.png" />
 					</View>
@@ -39,7 +39,7 @@
 						<ImageView class="touch-disabled fill-width auto-height" image="/images/technical_support.png" />
 					</View>
 				</ScrollView>
-				<ScrollView id="columnThree" class="from-left width-32 vgroup">
+				<ScrollView id="columnThree" class="from-left width-32 vgroup" onScroll="didScroll">
 					<View id="meetingCommitmentsView" class="width-100 auto-height" onClick="didClickTile">
 						<ImageView class="touch-disabled fill-width auto-height" image="/images/meeting_commitments.png" />
 					</View>
@@ -57,7 +57,9 @@
 					</View>
 				</ScrollView>
 			</View>
-			<View id="modalView" class="bg-white" onClick="didHideModal" />
+			<View id="modalView" class="bg-default" onClick="didHideModal">
+				<ImageView id="modalImg" class="touch-disabled fill" />
+			</View>
 		</View>
 	</Window>
 </Alloy>
