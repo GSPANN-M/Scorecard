@@ -8,6 +8,10 @@
 ".from-left":{
 	left: "2%"
 },
+"#modalView":{
+	width: 1,
+	height: 1
+},
 "#industryLeadershipView":{
 	action: "industry_leadership"
 },

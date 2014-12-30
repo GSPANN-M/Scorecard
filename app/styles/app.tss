@@ -91,6 +91,9 @@
 		fontSize: 24
 	}
 },
+".bg-white":{
+	backgroundColor: "#FFFFFF"
+},
 ".fg-white":{
 	color: "#FFFFFF"
 },
@@ -98,6 +101,10 @@
 	textAlign: "center"
 },
 ".nav-bar":{
+	top: 0,
 	height: Alloy.CFG.navBarHeight,
 	backgroundColor: "#D66360"
+},
+".template":{
+	top: Alloy.CFG.navBarHeight
 }
