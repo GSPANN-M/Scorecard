@@ -81,7 +81,9 @@ function didClickTile(e) {
 
 	var callback = function() {
 
-		$.modalView.removeEventListener("postlayout", callback);
+		if (OS_ANDROID) {
+			$.modalView.removeEventListener("postlayout", callback);
+		}
 
 		var dict = {
 			top : 0,
@@ -134,6 +136,14 @@ function didClickTile(e) {
 			break;
 		}
 	};
-	$.modalView.addEventListener("postlayout", callback);
+	
+	if (OS_ANDROID) {
+		$.modalView.addEventListener("postlayout", callback);
+	}
+	
 	$.modalView.applyProperties(modalDict);
+	
+	if (OS_IOS) {
+		callback();
+	}
 }
