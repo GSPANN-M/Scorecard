@@ -3,7 +3,7 @@
 		<View class="nav-bar">
 			<Label id="titleLbl" class="top  fill h1 fg-white text-center" />
 		</View>
-		<View class="template">
+		<View id="template" class="template">
 			<View id="tileContainer" class="hgroup no-hwrap">
 				<ScrollView id="columnOne" class="left width-32 vgroup">
 					<View id="industryLeadershipView" class="width-100 auto-height" onClick="didClickTile">

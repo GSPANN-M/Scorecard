@@ -1,5 +1,6 @@
 var args = arguments[0] || {},
-    app = require("core");
+    app = require("core"),
+    center;
 
 function didOpen() {
 	app.init();
@@ -10,20 +11,24 @@ function didClose() {
 }
 
 function didHideModal(e) {
-	var animation = animation = Ti.UI.createAnimation({
+
+	Ti.App.removeEventListener("orientationChange", didOrientationChange);
+
+	var dict = {
+		top : OS_IOS ? center.y : center.y / app.device.logicalDensityFactor,
+		left : OS_IOS ? center.x : center.x / app.device.logicalDensityFactor,
 		width : 1,
 		height : 1,
-		duration : 300
+		duration : 500
+	},
+	    anim = Ti.UI.createAnimation(dict);
+	anim.addEventListener("complete", function onComplte() {
+		anim.removeEventListener("complete", onComplte);
+		$.modalView.applyProperties(_.extend(_.omit(dict, "duration"), {
+			visible : false
+		}));
 	});
-	animation.addEventListener("complete", function onComplte() {
-		animation.removeEventListener("complete", onComplte);
-		$.modalView.applyProperties({
-			width : 1,
-			height : 1
-		});
-	});
-	$.modalView.animate(animation);
-	Ti.App.removeEventListener("orientationChange", didOrientationChange);
+	$.modalView.animate(anim);
 }
 
 function didOrientationChange(e) {
@@ -35,23 +40,50 @@ function didOrientationChange(e) {
 }
 
 function didClickTile(e) {
-	var action = e.source.action,
-	    device = app.getDeviceDimensions(),
-	    animation;
-	animation = Ti.UI.createAnimation({
+
+	var view = e.source,
+	    action = view.action,
+	    device = app.getDeviceDimensions();
+
+	$.modalView.visible = true;
+
+	center = view.convertPointToView({
+		x : e.x,
+		y : e.y
+	}, $.template);
+	$.modalView.applyProperties({
+		top : OS_IOS ? center.y : center.y / app.device.logicalDensityFactor,
+		left : OS_IOS ? center.x : center.x / app.device.logicalDensityFactor
+	});
+
+	var dict = {
 		width : device.width,
 		height : device.height - Alloy.CFG.navBarHeight,
 		duration : 300
-	});
-	animation.addEventListener("complete", function onComplte() {
-		animation.removeEventListener("complete", onComplte);
-		$.modalView.applyProperties({
-			width : device.width,
-			height : device.height - Alloy.CFG.navBarHeight
+	},
+	    animWH = Ti.UI.createAnimation(dict);
+	animWH.addEventListener("complete", function onComplteWH() {
+
+		animWH.removeEventListener("complete", onComplteWH);
+		$.modalView.applyProperties(_.omit(dict, "duration"));
+
+		var dictTL = {
+			top : 0,
+			left : 0,
+			duration : 200
+		},
+		    animTL = Ti.UI.createAnimation(dictTL);
+		animTL.addEventListener("complete", function onComplteTL() {
+			animTL.removeEventListener("complete", onComplteTL);
+			$.modalView.applyProperties(_.omit(dictTL, "duration"));
 		});
+		$.modalView.animate(animTL);
+
 	});
-	$.modalView.animate(animation);
+	$.modalView.animate(animWH);
+
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
+
 	console.log("chosen : ", action);
 	switch(action) {
 	case "industry_leadership":
