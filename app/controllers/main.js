@@ -17,21 +17,25 @@ function didClose() {
 }
 
 function didHideModal(e) {
+	if ($.modalView.visible == true) {
+		Ti.App.removeEventListener("orientationChange", didOrientationChange);
 
-	Ti.App.removeEventListener("orientationChange", didOrientationChange);
-
-	animation.fadeIn($.modalImg, 150, function() {
+		//animation.fadeIn($.modalImg, 150, function() {
 		var anim = Ti.UI.createAnimation(_.extend(modalDict, {
 			duration : 300
 		}));
 		anim.addEventListener("complete", function onComplte() {
 			anim.removeEventListener("complete", onComplte);
 			$.modalView.applyProperties(_.extend(_.omit(modalDict, "duration"), {
+				width : modalDict - 1,
 				visible : false
 			}));
 		});
 		$.modalView.animate(anim);
-	});
+		//});
+	} else if (OS_ANDROID) {
+		$.main.close();
+	}
 }
 
 function didOrientationChange(e) {
@@ -74,56 +78,62 @@ function didClickTile(e) {
 		visible : true
 	};
 	$.modalImg.image = view.children[0].image;
+
+	var callback = function() {
+
+		$.modalView.removeEventListener("postlayout", callback);
+
+		var dict = {
+			top : 0,
+			left : 0,
+			width : device.width,
+			height : device.height - Alloy.CFG.navBarHeight,
+			duration : 300
+		},
+		    anim = Ti.UI.createAnimation(dict);
+		anim.addEventListener("complete", function onComplteWH() {
+			anim.removeEventListener("complete", onComplteWH);
+			$.modalView.applyProperties(_.omit(dict, "duration"));
+			//animation.fadeOut($.modalImg, 150);
+		});
+		$.modalView.animate(anim);
+
+		Ti.App.addEventListener("orientationChange", didOrientationChange);
+
+		console.log("chosen : ", action);
+		switch(action) {
+		case "industry_leadership":
+			break;
+		case "innovative_products":
+			break;
+		case "timely_solutions":
+			break;
+		case "partnering_for_mutual_benefit":
+			break;
+		case "tool_upgrades":
+			break;
+		case "equipment_performance":
+			break;
+		case "tool_quality":
+			break;
+		case "spares_performance":
+			break;
+		case "service_contracts":
+			break;
+		case "technical_support":
+			break;
+		case "meeting_commitments":
+			break;
+		case "ease_of_doing_business":
+			break;
+		case "fast_response_to_escalations":
+			break;
+		case "tool_installation":
+			break;
+		case "on_time_delivery":
+			break;
+		}
+	};
+	$.modalView.addEventListener("postlayout", callback);
 	$.modalView.applyProperties(modalDict);
-
-	var dict = {
-		top : 0,
-		left : 0,
-		width : device.width,
-		height : device.height - Alloy.CFG.navBarHeight,
-		duration : 300
-	},
-	    anim = Ti.UI.createAnimation(dict);
-	anim.addEventListener("complete", function onComplteWH() {
-		anim.removeEventListener("complete", onComplteWH);
-		$.modalView.applyProperties(_.omit(dict, "duration"));
-		animation.fadeOut($.modalImg, 150);
-	});
-	$.modalView.animate(anim);
-
-	Ti.App.addEventListener("orientationChange", didOrientationChange);
-
-	console.log("chosen : ", action);
-	switch(action) {
-	case "industry_leadership":
-		break;
-	case "innovative_products":
-		break;
-	case "timely_solutions":
-		break;
-	case "partnering_for_mutual_benefit":
-		break;
-	case "tool_upgrades":
-		break;
-	case "equipment_performance":
-		break;
-	case "tool_quality":
-		break;
-	case "spares_performance":
-		break;
-	case "service_contracts":
-		break;
-	case "technical_support":
-		break;
-	case "meeting_commitments":
-		break;
-	case "ease_of_doing_business":
-		break;
-	case "fast_response_to_escalations":
-		break;
-	case "tool_installation":
-		break;
-	case "on_time_delivery":
-		break;
-	}
 }

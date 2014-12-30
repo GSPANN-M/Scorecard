@@ -1,5 +1,5 @@
 <Alloy>
-	<Window onOpen="didOpen" onClose="didClose">
+	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didHideModal">
 		<View class="nav-bar">
 			<Label id="titleLbl" class="top  fill h1 fg-white text-center" />
 		</View>
@@ -57,7 +57,7 @@
 					</View>
 				</ScrollView>
 			</View>
-			<View id="modalView" class="bg-default" onClick="didHideModal">
+			<View id="modalView" onClick="didHideModal">
 				<ImageView id="modalImg" class="touch-disabled fill" />
 			</View>
 		</View>
