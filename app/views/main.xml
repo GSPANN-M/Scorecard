@@ -1,6 +1,6 @@
 <Alloy>
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didHideModal">
-		<View class="nav-bar">
+		<View id="navBarView" class="nav-bar">
 			<Label id="titleLbl" class="top  fill h1 fg-white text-center" />
 		</View>
 		<View id="template" class="template">
