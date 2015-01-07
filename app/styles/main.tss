@@ -1,3 +1,6 @@
+"#main":{
+	backgroundImage: "/images/tile_background.png"
+},
 "#main[platform=android]":{
 	exitOnClose: true
 },

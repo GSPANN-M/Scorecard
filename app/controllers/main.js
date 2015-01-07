@@ -92,6 +92,9 @@ var args = arguments[0] || {},
 
 function didOpen() {
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
+	if (Ti.App.Properties.getString("email", "") == "") {
+		Alloy.createController("email").getView().open();
+	}
 }
 
 function didClose() {
