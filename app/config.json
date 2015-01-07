@@ -4,12 +4,16 @@
 	"env:test": {},
 	"env:production": {},
 	"os:android": {
-		"navBarHeight": 48
+		"navBarPadding": 0,
+		"navBarHeight": 117
 	},
 	"os:blackberry": {},
 	"os:ios": {
-		"navBarHeight": 68
+		"navBarPadding": 20,
+		"navBarHeight": 137
 	},
 	"os:mobileweb": {},
-	"dependencies": {}
+	"dependencies": {
+		"com.mykingdom.textarea": "1.0"
+	}
 }

@@ -1,0 +1,37 @@
+"#widget": {
+	height: 100,
+	borderColor: "#8b8b8b",
+	borderWidth: 1
+},
+"#txta":{
+	top: 15,
+	left: 15,
+	right: 15,
+	bottom: 15,
+	color: "#000",
+	backgroundColor: "transparent",
+	borderColor: "transparent",
+	borderWidth: 0,
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_NONE,
+	autocorrect: false,
+	autocapitalization: Ti.UI.TEXT_AUTOCAPITALIZATION_NONE,
+	zIndex: 0
+},
+"#txta[platform=ios,mobileweb]":{
+	suppressReturn: false
+},
+"#hintLbl":{
+	top: 23,
+	color: "#A39D9A",
+	zIndex: 1
+},
+"#hintLbl[platform=ios]":{
+	left: 23,
+	right: 23
+},
+"#hintLbl[platform=android]":{
+	left: 27,
+	right: 27,
+	ellipsize: true,
+	wordWrap: false
+}
