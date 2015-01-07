@@ -182,11 +182,11 @@ function didClickOption(e) {
 	if ($.thumbUp == source) {
 		$.thumbDown.backgroundColor = "#2F2F2F";
 		$.thumbUp.backgroundColor = "#D66360";
-		$.optionView.rating = 1;
+		$.optionView.rating = "1";
 	} else {
 		$.thumbUp.backgroundColor = "#2F2F2F";
 		$.thumbDown.backgroundColor = "#D66360";
-		$.optionView.rating = 0;
+		$.optionView.rating = "0";
 	}
 }
 
