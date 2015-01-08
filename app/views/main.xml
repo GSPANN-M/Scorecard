@@ -14,14 +14,14 @@
 		</View>
 		<View id="template" class="template">
 			<View id="tileContainer" class="hgroup no-hwrap">
-				<ScrollView id="columnOne" class="left width-32 vgroup" onScroll="didScroll" />
-				<ScrollView id="columnTwo" class="from-left width-32 vgroup" onScroll="didScroll" />
-				<ScrollView id="columnThree" class="from-left width-32 vgroup" onScroll="didScroll" />
+				<ScrollView id="columnOne" class="left column vgroup" onScroll="didScroll" />
+				<ScrollView id="columnTwo" class="column vgroup" onScroll="didScroll" />
+				<ScrollView id="columnThree" class="column vgroup" onScroll="didScroll" />
 			</View>
 		</View>
 		<View id="floatingBarView" class="template" />
 		<View id="modalView" class="fill hidden hidden-opacity">
-			<View id="modalBgView" />
+			<View class="bg-semitransparent" />
 			<ScrollView class="vgroup">
 				<View id="modalTileView" class="auto-height">
 					<ImageView id="modalImg" class="touch-disabled fill-width auto-height" />

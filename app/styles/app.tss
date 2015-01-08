@@ -84,9 +84,6 @@
 ".width-50":{
 	width: "50%"
 },
-".width-32":{
-	width: "32%"
-},
 ".auto-height":{
 	height: Ti.UI.SIZE
 },

@@ -4,6 +4,9 @@
 "#main[platform=android]":{
 	exitOnClose: true
 },
+".column":{
+	width: "33.3%"
+},
 ".width-80d":{
 	width: 80
 },
@@ -17,14 +20,16 @@
 "#titleLbl":{
 	text: "Customer Survey"
 },
-".from-left":{
-	left: "2%"
-},
 ".tile-from-top":{
-	top: 15
+	top: 20
 },
 ".tile-from-bottom":{
-	bottom: 15
+	bottom: 30
+},
+".tile-img":{
+	top: 10,
+	left: 15,
+	right: 15
 },
 "#columnOne":{
 	identifier: "columnOne"
@@ -39,9 +44,25 @@
 	height: 90,
 	backgroundColor: "#50FFFFFF"
 },
-"#modalBgView":{
+".zindex-0":{
+	zIndex: 0
+},
+".zindex-1":{
+	zIndex: 1
+},
+".zindex-2":{
+	zIndex: 2
+},
+".bg-semitransparent":{
 	backgroundColor: "#000000",
 	opacity: 0.85
+},
+".close-view":{
+	top: 0,
+	left: 5,
+	width: 40,
+	height: 40,
+	borderRadius: 20
 },
 "#modalTileView":{
 	width: 180

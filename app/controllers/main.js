@@ -4,7 +4,6 @@ var args = arguments[0] || {},
     dialog = require("dialog"),
     db = require("db"),
     feedbackColl = db.getCollection(Alloy.CFG.collection.feedback),
-    tileFromTop = 15,
     scrollViews = {
 	columnOne : {
 		position : 0,
@@ -63,7 +62,7 @@ var args = arguments[0] || {},
 		}, {
 			card_id : "ease_of_doing_biz",
 			image : "/images/ease_of_doing_business.png",
-			title : "EASE OF DOING_BUSINESS"
+			title : "EASE OF DOING BUSINESS"
 		}, {
 			card_id : "fst_rspns_to_escltn",
 			image : "/images/fast_response_to_escalations.png",
@@ -99,14 +98,15 @@ var args = arguments[0] || {},
 			});
 			var imageView = $.UI.create("ImageView", {
 				apiName : "ImageView",
-				classes : ["touch-disabled", "fill-width", "auto-height"]
+				classes : ["tile-img", "touch-disabled", "fill-width", "auto-height", "zindex-0"]
 			}),
 			    circleView = Ti.UI.createView({
 				width : circleWidth,
 				height : circleWidth,
 				borderRadius : circleWidth / 2,
 				backgroundColor : "#90FFFFFF",
-				touchEnabled : false
+				touchEnabled : false,
+				zIndex : 2
 			}),
 			    label = $.UI.create("Label", {
 				apiName : "Label",
@@ -140,6 +140,7 @@ function didOpen() {
 	} else {
 		checkForEmail();
 	}
+	updateFilledTiles();
 }
 
 function checkForEmail(e) {
@@ -222,7 +223,7 @@ function didClickTile(e) {
 	    feedbackRecord = feedbackColl.find({
 	card_id : tileView.card_id
 	})[0] || {};
-	if ($.modalView.visible == false && (feedbackColl.getLength() < 4 || !_.isEmpty(feedbackRecord))) {
+	if (feedbackColl.getLength() < 4 || !_.isEmpty(feedbackRecord)) {
 		$.modalView.card_id = tileView.card_id;
 		$.modalImg.image = tileView.imagePath;
 		$.modalLbl.text = tileView.tileText;
@@ -231,6 +232,10 @@ function didClickTile(e) {
 		$.thumbDown.backgroundColor = feedbackRecord.feedback == "0" ? "#D66360" : "#2F2F2F";
 		$.txta.setValue(feedbackRecord.comments || "");
 		toggleModal();
+	} else {
+		dialog.show({
+			title : "You can't rate about more than 4 areas"
+		});
 	}
 }
 
@@ -255,12 +260,12 @@ function didClickOK(e) {
 		return;
 	}
 	var feedbackRecord = feedbackColl.find({
-	id : $.modalView.card_id
+	card_id : $.modalView.card_id
 	})[0] || {};
 	_.extend(feedbackRecord, {
 		card_id : $.modalView.card_id,
 		feedback : $.optionView.feedback,
-		comments : $.txta.value
+		comments : $.txta.getValue()
 	});
 	if (_.has(feedbackRecord, "_id")) {
 		feedbackColl.update({
@@ -271,9 +276,32 @@ function didClickOK(e) {
 	} else {
 		feedbackColl.save(feedbackRecord);
 	}
-	console.log(feedbackRecord);
 	db.commit(feedbackColl);
+	updateFilledTiles();
 	closeModal();
+}
+
+function updateFilledTiles() {
+	var cards = feedbackColl.findAll();
+	for (var i in cards) {
+		var cardId = cards[i].card_id,
+		    selectedCard = $[cardId];
+		if (selectedCard && selectedCard.children.length == 2) {
+			var closeView = $.UI.create("View", {
+				apiName : "View",
+				classes : ["bg-red", "close-view"]
+			}),
+			    closeIcon = Ti.UI.createImageView({
+				width : 20,
+				height : 20,
+				image : "/images/close.png"
+			});
+			closeView.add(closeIcon);
+			selectedCard.children[1].backgroundColor = "#D66360";
+			selectedCard.children[1].children[0].color = "#FFFFFF";
+			selectedCard.add(closeView);
+		}
+	}
 }
 
 function closeModal(e) {
