@@ -352,7 +352,7 @@ function didRemoveFeedback(e) {
 	});
 }
 
-function updateCardWithNoFeedback() {
+function updateCardWithNoFeedback(cardId) {
 	feedbackColl.remove({
 		card_id : cardId
 	});
