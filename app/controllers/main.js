@@ -347,18 +347,22 @@ function didRemoveFeedback(e) {
 		buttonNames : ["Cancel", "OK"],
 		cancelIndex : 0,
 		success : function() {
-			feedbackColl.remove({
-				card_id : cardId
-			});
-			db.commit(feedbackColl);
-			var selectedCard = $[cardId],
-			    children = selectedCard.children;
-			selectedCard.children[1].backgroundColor = "#90FFFFFF";
-			selectedCard.children[1].children[0].color = "#160C4C";
-			selectedCard.remove(children[2]);
-			selectedCard.remove(children[3]);
+			updateCardWithNoFeedback(cardId);
 		}
 	});
+}
+
+function updateCardWithNoFeedback() {
+	feedbackColl.remove({
+		card_id : cardId
+	});
+	db.commit(feedbackColl);
+	var selectedCard = $[cardId],
+	    children = selectedCard.children;
+	selectedCard.children[1].backgroundColor = "#90FFFFFF";
+	selectedCard.children[1].children[0].color = "#160C4C";
+	selectedCard.remove(children[2]);
+	selectedCard.remove(children[3]);
 }
 
 function didCancelSurvey(e) {
@@ -371,6 +375,12 @@ function didCancelSurvey(e) {
 			var emailColl = db.getCollection(Alloy.CFG.collection.email);
 			emailColl.clear();
 			db.commit(emailColl);
+			var cards = feedbackColl.findAll();
+			for (var i in cards) {
+				updateCardWithNoFeedback(cards[i].card_id);
+			}
+			feedbackColl.clear();
+			db.commit(feedbackColl);
 			checkForEmail();
 		}
 	});
