@@ -2,6 +2,9 @@
 	modal: true,
 	backgroundColor: "#000000"
 },
+"#emailWin[platform=android]":{
+	theme: "Theme.NoActionBar"
+},
 "#hintLbl":{
 	text: "Please enter your email address\nto get started.",
 	font:{
