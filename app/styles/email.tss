@@ -11,7 +11,7 @@
 },
 "#txt":{
 	top: 40,
-	height: 60,
+	height: 50,
 	color: "#000",
 	borderRadius: 6,
 	autocorrect: false,

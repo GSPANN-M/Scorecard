@@ -24,10 +24,6 @@ var args = arguments[0] || {},
 
 (function() {
 	app.init();
-	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
-		Ti.App.Properties.setBool("firstLaunch", true);
-		Alloy.createController("coachMarks").getView().open();
-	}
 	var circleWidth = getDimensions().circleWidth;
 	for (var i in scrollViews) {
 		var items = scrollViews[i].items,
@@ -46,7 +42,8 @@ var args = arguments[0] || {},
 				width : circleWidth,
 				height : circleWidth,
 				borderRadius : circleWidth / 2,
-				backgroundColor : "#90FFFFFF"
+				backgroundColor : "#90FFFFFF",
+				touchEnabled: false
 			}),
 			    label = $.UI.create("Label", {
 				apiName : "Label",
@@ -54,46 +51,32 @@ var args = arguments[0] || {},
 			});
 			label.text = items[j].replace(/_/g, " ").toUpperCase();
 			imageView.image = "/images/".concat(items[j]).concat(".png");
-			circleView.formId = items[j];
 			circleView.add(label);
-			circleView.addEventListener("click", didClickTile);
 			$[items[j]].add(imageView);
 			$[items[j]].add(circleView);
+			$[items[j]].formId = items[j];
+			$[items[j]].tileText = label.text;
+			$[items[j]].imagePath = imageView.image;
+			$[items[j]].addEventListener("click", didClickTile);
 			$[i].add($[items[j]]);
 		}
 	}
-	$.modalContent.top = Alloy.CFG.navBarHeight + tileHeight + tileFromTop;
-	$.modalTileView = Ti.UI.createView({
-		top : Alloy.CFG.navBarHeight + tileFromTop,
-		width : tileWidth,
-		height : tileHeight,
-		opacity : 0,
-		visible : false
-	});
-	$.modalImg = $.UI.create("ImageView", {
-		apiName : "ImageView",
-		classes : ["touch-disabled", "fill-width", "auto-height"]
-	});
-	$.modalCircle = Ti.UI.createView({
-		width : circleWidth,
-		height : circleWidth,
-		borderRadius : circleWidth / 2,
-		backgroundColor : "#90FFFFFF"
-	});
-	$.modalLbl = $.UI.create("Label", {
-		apiName : "Label",
-		classes : ["touch-disabled", "width-90", "text-center", "h2", "fg-naviblue"]
-	});
-	$.modalCircle.add($.modalLbl);
-	$.modalTileView.add($.modalImg);
-	$.modalTileView.add($.modalCircle);
-	$.main.add($.modalTileView);
 })();
 
 function didOpen() {
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
-	if (Ti.App.Properties.getString("email", "") == "") {
-		Alloy.createController("email").getView().open();
+	var checkForEmail = function() {
+		if (Ti.App.Properties.getString("email", "") == "") {
+			Alloy.createController("email").getView().open();
+		}
+	};
+	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
+		Ti.App.Properties.setBool("firstLaunch", true);
+		var coachMarksWin = Alloy.createController("coachMarks").getView();
+		coachMarksWin.addEventListener("open", checkForEmail);
+		coachMarksWin.open();
+	} else {
+		checkForEmail();
 	}
 }
 
@@ -159,24 +142,13 @@ function didScroll(e) {
 function didClickTile(e) {
 	if ($.modalView.visible == false) {
 		$.modalView.formId = e.source.formId;
+		$.modalImg.image = e.source.imagePath;
+		$.modalLbl.text = e.source.tileText;
 		$.optionView.rating = "none";
 		$.thumbUp.backgroundColor = "#2F2F2F";
 		$.thumbDown.backgroundColor = "#2F2F2F";
 		$.txta.setValue("");
-		$.modalContent.top = Number(Alloy.CFG.navBarHeight) + Number(tileHeight) + (tileFromTop * 2);
-		$.modalTileView.applyProperties({
-			top : Alloy.CFG.navBarHeight + tileFromTop,
-			width : tileWidth,
-			height : tileHeight,
-			visible : true
-		});
-		$.modalImg.image = e.source.getParent().children[0].image;
-		$.modalLbl.text = e.source.children[0].text;
-		toggleModal(function() {
-			animation.fadeIn($.modalTileView, 500, function() {
-				$.modalTileView.opacity = 1;
-			});
-		});
+		toggleModal();
 	}
 }
 
@@ -204,13 +176,7 @@ function didClickOK(e) {
 }
 
 function closeModal(e) {
-	animation.fadeOut($.modalTileView, 500, function() {
-		$.modalTileView.applyProperties({
-			opacity : 0,
-			visible : false
-		});
-		toggleModal();
-	});
+	toggleModal();
 }
 
 function didClose(e) {

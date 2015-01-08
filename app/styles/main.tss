@@ -7,8 +7,8 @@
 ".width-80d":{
 	width: 80
 },
-".width-60d":{
-	width: 60
+".nav-icon":{
+	width: 50
 },
 "#tileContainer":{
 	left: "2%",
@@ -140,17 +140,33 @@
 	},
 	action: "on_time_delivery"
 },
-"#modalView":{
-	backgroundColor: "#90000000"
+"#modalBgView":{
+	backgroundColor: "#000000",
+	opacity: 0.85
+},
+"#modalTileView":{
+	width: 180
+},
+"#modalTileView[platform=ios]":{
+	top: 100
+},
+"#modalTileView[platform=android]":{
+	top: 80
+},
+"#modalCircleView":{
+	width: 144,
+	height: 144,
+	borderRadius: 72,
+	backgroundColor: "#90FFFFFF"
 },
 ".option-view":{
-	width: 100,
-	height: 100,
-	borderRadius: 50,
+	width: 70,
+	height: 70,
+	borderRadius: 35,
 	backgroundColor: "#2F2F2F"
 },
 "#txta":{
 	hintText: "Additional feedback (optional)",
-	height: 180,
+	height: 140,
 	borderRadius: 6
 }

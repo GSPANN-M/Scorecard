@@ -2,14 +2,14 @@
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didAndroidback">
 		<View id="navBarView" class="nav-bar bg-red">
 			<View class="left width-80d">
-				<ImageView image="/images/wrong_enabled.png" class="right width-60d touch-disabled" />
+				<ImageView image="/images/wrong_enabled.png" class="right nav-icon touch-disabled" />
 			</View>
 			<View class="nav-bar-title-view">
 				<ImageView class="tile-from-top logo" />
 				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
 			</View>
 			<View class="right width-80d">
-				<ImageView image="/images/right_disabled.png" class="left width-60d touch-disabled" />
+				<ImageView image="/images/right_disabled.png" class="left nav-icon touch-disabled" />
 			</View>
 		</View>
 		<View id="template" class="template">
@@ -19,19 +19,26 @@
 				<ScrollView id="columnThree" class="from-left width-32 vgroup" onScroll="didScroll" />
 			</View>
 		</View>
-		<View id="modalView" class="fill hidden hidden-opacity bg-semitransparent">
-			<ScrollView id="modalContent" class="vgroup">
-				<View id="optionView" class="margin-top auto hgroup no-hwrap">
+		<View id="modalView" class="fill hidden hidden-opacity">
+			<View id="modalBgView" />
+			<ScrollView class="vgroup">
+				<View id="modalTileView" class="auto-height">
+					<ImageView id="modalImg" class="touch-disabled fill-width auto-height" />
+					<View id="modalCircleView">
+						<Label id="modalLbl" class="touch-disabled width-90 text-center h3 fg-naviblue" />
+					</View>
+				</View>
+				<View id="optionView" class="padding-top auto hgroup no-hwrap">
 					<View id="thumbUp" class="option-view" onClick="didClickOption">
 						<ImageView image="/images/thumb_up.png" class="touch-disabled" />
 					</View>
-					<View id="thumbDown" class="margin-left option-view" onClick="didClickOption">
+					<View id="thumbDown" class="padding-left option-view" onClick="didClickOption">
 						<ImageView image="/images/thumb_down.png" class="touch-disabled" />
 					</View>
 				</View>
-				<Widget id="txta" src="com.mykingdom.textarea" class="margin-top width-75 h2 bg-white" />
+				<Widget id="txta" src="com.mykingdom.textarea" class="padding-top width-75 h2 bg-white" />
 				<Button title="OK" class="primary-button" onClick="didClickOK" />
-				<Button title="Cancel" class="margin-bottom primary-button" onClick="closeModal" />
+				<Button title="Cancel" class="padding-bottom primary-button" onClick="closeModal" />
 			</ScrollView>
 		</View>
 	</Window>
