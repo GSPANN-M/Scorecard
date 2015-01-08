@@ -1,9 +1,15 @@
 <Alloy>
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didAndroidback">
 		<View id="navBarView" class="nav-bar bg-red">
+			<View class="left width-80d">
+				<ImageView image="/images/wrong_enabled.png" class="right width-60d touch-disabled" />
+			</View>
 			<View class="nav-bar-title-view">
 				<ImageView class="tile-from-top logo" />
 				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
+			</View>
+			<View class="right width-80d">
+				<ImageView image="/images/right_disabled.png" class="left width-60d touch-disabled" />
 			</View>
 		</View>
 		<View id="template" class="template">

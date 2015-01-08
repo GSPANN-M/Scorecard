@@ -4,6 +4,12 @@
 "#main[platform=android]":{
 	exitOnClose: true
 },
+".width-80d":{
+	width: 80
+},
+".width-60d":{
+	width: 60
+},
 "#tileContainer":{
 	left: "2%",
 	right: "2%"

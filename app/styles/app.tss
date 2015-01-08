@@ -153,8 +153,8 @@
 },
 ".nav-bar-title-view":{
 	top: Alloy.CFG.navBarPadding,
-	left: 60,
-	right: 60,
+	left: 80,
+	right: 80,
 	layout: "vertical"
 },
 ".logo":{
