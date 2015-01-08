@@ -1,6 +1,7 @@
 var args = arguments[0] || {},
-    animation = require('alloy/animation'),
     app = require("core"),
+    animation = require("alloy/animation"),
+    scule = require("com.scule"),
     dialog = require("dialog"),
     tileFromTop = 15,
     scrollViews = {
@@ -67,7 +68,7 @@ function didOpen() {
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
 	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
 		Ti.App.Properties.setBool("firstLaunch", true);
-		var coachMarksWin = Alloy.createController("coachMarks").getView();
+		var coachMarksWin = Alloy.createController("coachMarksWin").getView();
 		coachMarksWin.addEventListener("open", checkForEmail);
 		coachMarksWin.open();
 	} else {
@@ -76,9 +77,21 @@ function didOpen() {
 }
 
 function checkForEmail(e) {
-	if (Ti.App.Properties.getString("email", "") == "") {
-		Alloy.createController("email").getView().open();
+	var email = getEmail();
+	if (!email) {
+		Alloy.createController("emailWin").getView().open();
+		return false;
 	}
+	return email;
+}
+
+function getEmail() {
+	var emailColl = scule.factoryCollection(Alloy.CFG.collection.email, {
+		secret : Alloy.CFG.secret
+	});
+	return (emailColl.find({}, {
+	$limit : 1
+	})[0] || {}).email;
 }
 
 function didClose() {
@@ -187,7 +200,11 @@ function didCancelSurvey(e) {
 		buttonNames : ["Cancel", "OK"],
 		cancelIndex : 0,
 		success : function() {
-			Ti.App.Properties.removeProperty("email");
+			var emailColl = scule.factoryCollection(Alloy.CFG.collection.email, {
+				secret : Alloy.CFG.secret
+			});
+			emailColl.remove({});
+			emailColl.commit();
 			checkForEmail();
 		}
 	});

@@ -1,5 +1,11 @@
 {
-	"global": {},
+	"global": {
+		"collection": {
+			"email": "scule+titanium://contact",
+			"feedback": "scule+titanium://feedback"
+		},
+		"secret": "@*(L(*)$A@M)"
+	},
 	"env:development": {},
 	"env:test": {},
 	"env:production": {},

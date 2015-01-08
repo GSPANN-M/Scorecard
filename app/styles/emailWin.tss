@@ -1,4 +1,4 @@
-"#email":{
+"#emailWin":{
 	modal: true,
 	backgroundColor: "#000000"
 },

@@ -1,4 +1,5 @@
 var args = arguments[0] || {},
+    scule = require("com.scule"),
     dialog = require("dialog");
 
 function didClickSubmit(e) {
@@ -11,5 +12,12 @@ function didClickSubmit(e) {
 		return;
 	}
 	Ti.App.Properties.setString("email", value);
-	$.email.close();
+	var emailColl = scule.factoryCollection(Alloy.CFG.collection.email, {
+		secret : Alloy.CFG.secret
+	});
+	emailColl.save({
+		email : value
+	});
+	emailColl.commit();
+	$.emailWin.close();
 }

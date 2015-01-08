@@ -1,4 +1,4 @@
-"#coachMarks":{
+"#coachMarksWin":{
 	modal: true,
 	orientationModes : [
     	Titanium.UI.PORTRAIT,
@@ -6,6 +6,6 @@
     ],
 	backgroundImage: "/images/coach_marks.png"
 },
-"#coachMarks[platform=android]":{
+"#coachMarksWin[platform=android]":{
 	theme: "Theme.NoActionBar"
 }
