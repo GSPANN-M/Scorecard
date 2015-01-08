@@ -135,7 +135,7 @@ function didOpen() {
 	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
 		Ti.App.Properties.setBool("firstLaunch", true);
 		var coachMarksWin = Alloy.createController("coachMarksWin").getView();
-		coachMarksWin.addEventListener("open", checkForEmail);
+		coachMarksWin.addEventListener("close", checkForEmail);
 		coachMarksWin.open();
 	} else {
 		checkForEmail();
