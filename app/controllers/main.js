@@ -320,7 +320,7 @@ function updateFilledTiles(cardId) {
 				touchEnabled : false
 			}),
 			    thumbIcon = Ti.UI.createImageView({
-				bottom : 15,
+				bottom : 10,
 				width : 40,
 				height : 40,
 				image : "/images/" + (cards[i].feedback == "0" ? "thumb_down" : "thumb_up") + ".png"
