@@ -1,149 +1,226 @@
 var args = arguments[0] || {},
     animation = require('alloy/animation'),
     app = require("core"),
-    scrollPoint = {
-	columnOne : 0,
-	columnTwo : 0,
-	columnThree : 0
+    dialog = require("dialog"),
+    tileFromTop = 15,
+    scrollViews = {
+	columnOne : {
+		position : 0,
+		items : ["industry_leadership", "innovative_products", "timely_solutions", "partnering_for_mutual_benefit", "tool_upgrades"]
+	},
+	columnTwo : {
+		position : 0,
+		items : ["equipment_performance", "tool_quality", "spares_performance", "service_contracts", "technical_support"]
+	},
+	columnThree : {
+		position : 0,
+		items : ["meeting_commitments", "ease_of_doing_business", "fast_response_to_escalations", "tool_installation", "on_time_delivery"]
+	}
 },
-    modalDict;
+    tilePWidth,
+    tilePHeight,
+    tileLWidth,
+    tileLHeight;
+
+(function() {
+	app.init();
+	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
+		Ti.App.Properties.setBool("firstLaunch", true);
+		Alloy.createController("coachMarks").getView().open();
+	}
+	var circleWidth = getDimensions().circleWidth;
+	for (var i in scrollViews) {
+		var items = scrollViews[i].items,
+		    lastIndex = items.length - 1;
+		for (var j in items) {
+			$[items[j]] = $.UI.create("View", {
+				apiName : "View",
+				classes : j == lastIndex ? ["tile-from-top", "tile-from-bottom", "width-100", "auto-height"] : ["tile-from-top", "width-100", "auto-height"],
+				id : "#".concat(items[j])
+			});
+			var imageView = $.UI.create("ImageView", {
+				apiName : "ImageView",
+				classes : ["touch-disabled", "fill-width", "auto-height"]
+			}),
+			    circleView = Ti.UI.createView({
+				width : circleWidth,
+				height : circleWidth,
+				borderRadius : circleWidth / 2,
+				backgroundColor : "#90FFFFFF"
+			}),
+			    label = $.UI.create("Label", {
+				apiName : "Label",
+				classes : ["touch-disabled", "width-90", "text-center", "h2", "fg-naviblue"]
+			});
+			label.text = items[j].replace(/_/g, " ").toUpperCase();
+			imageView.image = "/images/".concat(items[j]).concat(".png");
+			circleView.formId = items[j];
+			circleView.add(label);
+			circleView.addEventListener("click", didClickTile);
+			$[items[j]].add(imageView);
+			$[items[j]].add(circleView);
+			$[i].add($[items[j]]);
+		}
+	}
+	$.modalContent.top = Alloy.CFG.navBarHeight + tileHeight + tileFromTop;
+	$.modalTileView = Ti.UI.createView({
+		top : Alloy.CFG.navBarHeight + tileFromTop,
+		width : tileWidth,
+		height : tileHeight,
+		opacity : 0,
+		visible : false
+	});
+	$.modalImg = $.UI.create("ImageView", {
+		apiName : "ImageView",
+		classes : ["touch-disabled", "fill-width", "auto-height"]
+	});
+	$.modalCircle = Ti.UI.createView({
+		width : circleWidth,
+		height : circleWidth,
+		borderRadius : circleWidth / 2,
+		backgroundColor : "#90FFFFFF"
+	});
+	$.modalLbl = $.UI.create("Label", {
+		apiName : "Label",
+		classes : ["touch-disabled", "width-90", "text-center", "h2", "fg-naviblue"]
+	});
+	$.modalCircle.add($.modalLbl);
+	$.modalTileView.add($.modalImg);
+	$.modalTileView.add($.modalCircle);
+	$.main.add($.modalTileView);
+})();
 
 function didOpen() {
-	app.init();
+	Ti.App.addEventListener("orientationChange", didOrientationChange);
+	if (Ti.App.Properties.getString("email", "") == "") {
+		Alloy.createController("email").getView().open();
+	}
 }
 
 function didClose() {
 	app.terminate();
 }
 
-function didHideModal(e) {
+function toggleModal(callback) {
 	if ($.modalView.visible == true) {
-		Ti.App.removeEventListener("orientationChange", didOrientationChange);
-
-		//animation.fadeIn($.modalImg, 150, function() {
-		var anim = Ti.UI.createAnimation(_.extend(modalDict, {
-			duration : 300
-		}));
-		anim.addEventListener("complete", function onComplte() {
-			anim.removeEventListener("complete", onComplte);
-			$.modalView.applyProperties(_.extend(_.omit(modalDict, "duration"), {
-				width : modalDict - 1,
+		animation.fadeOut($.modalView, 500, function() {
+			$.modalView.applyProperties({
+				opacity : 0,
 				visible : false
-			}));
+			});
+			if (callback) {
+				callback();
+			}
 		});
-		$.modalView.animate(anim);
-		//});
-	} else if (OS_ANDROID) {
-		$.main.close();
+	} else {
+		$.modalView.visible = true;
+		animation.fadeIn($.modalView, 500, function() {
+			$.modalView.opacity = 1;
+			if (callback) {
+				callback();
+			}
+		});
 	}
 }
 
 function didOrientationChange(e) {
-	var device = app.getDeviceDimensions();
-	$.modalView.applyProperties({
-		width : device.width,
-		height : device.height - Alloy.CFG.navBarHeight
-	});
+	getDimensions();
+}
+
+function getDimensions(e) {
+	var device = app.getDeviceDimensions(),
+	    containerWidth;
+	tileWidth = Number(Ti.App.Properties.getString(app.device.orientation.concat("TileWidth"), 0));
+	tileHeight = Number(Ti.App.Properties.getString(app.device.orientation.concat("TileHeight"), 0));
+	if (tileWidth == 0 || tileHeight == 0) {
+		containerWidth = (device.width / 100) * 96;
+		tileWidth = Math.floor((containerWidth / 100) * 32);
+		var blob = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, "/images/industry_leadership.png").read();
+		tileHeight = Math.floor((blob.height / blob.width) * tileWidth);
+		Ti.App.Properties.setString(app.device.orientation.concat("TileWidth"), tileWidth);
+		Ti.App.Properties.setString(app.device.orientation.concat("TileHeight"), tileHeight);
+	}
+	if (app.device.orientation == "landscape") {
+		containerWidth = (device.height / 100) * 96;
+		return {
+			circleWidth : Math.floor(((containerWidth / 100) * 32 / 100) * 80)
+		};
+	} else {
+		return {
+			circleWidth : Math.floor((tileWidth / 100) * 80)
+		};
+	}
 }
 
 function didScroll(e) {
-	scrollPoint[e.source.identifier] = OS_IOS ? e.y : e.y / app.device.logicalDensityFactor;
+	scrollViews[e.source.identifier]["position"] = OS_IOS ? e.y : e.y / app.device.logicalDensityFactor;
 }
 
 function didClickTile(e) {
-
-	var view = e.source,
-	    parent = view.getParent(),
-	    size = view.size,
-	    action = view.action,
-	    index = view.index,
-	    cIndex = index.column - 1,
-	    rIndex = index.row - 1,
-	    containerWidth = app.device.width - ((app.device.width / 100) * 4),
-	    containerFromLeft = (app.device.width / 100) * 2,
-	    top = rIndex * size.height,
-	    left = cIndex * size.width,
-	    device = app.getDeviceDimensions();
-
-	left += containerFromLeft + (((containerWidth / 100) * 2) * cIndex);
-	top += (rIndex * 5);
-
-	top -= scrollPoint[parent.identifier];
-
-	modalDict = {
-		top : top,
-		left : left,
-		width : size.width,
-		height : size.height,
-		visible : true
-	};
-	$.modalImg.image = view.children[0].image;
-
-	var callback = function() {
-
-		if (OS_ANDROID) {
-			$.modalView.removeEventListener("postlayout", callback);
-		}
-
-		var dict = {
-			top : 0,
-			left : 0,
-			width : device.width,
-			height : device.height - Alloy.CFG.navBarHeight,
-			duration : 300
-		},
-		    anim = Ti.UI.createAnimation(dict);
-		anim.addEventListener("complete", function onComplteWH() {
-			anim.removeEventListener("complete", onComplteWH);
-			$.modalView.applyProperties(_.omit(dict, "duration"));
-			//animation.fadeOut($.modalImg, 150);
+	if ($.modalView.visible == false) {
+		$.modalView.formId = e.source.formId;
+		$.optionView.rating = "none";
+		$.thumbUp.backgroundColor = "#2F2F2F";
+		$.thumbDown.backgroundColor = "#2F2F2F";
+		$.txta.setValue("");
+		$.modalContent.top = Number(Alloy.CFG.navBarHeight) + Number(tileHeight) + (tileFromTop * 2);
+		$.modalTileView.applyProperties({
+			top : Alloy.CFG.navBarHeight + tileFromTop,
+			width : tileWidth,
+			height : tileHeight,
+			visible : true
 		});
-		$.modalView.animate(anim);
-
-		Ti.App.addEventListener("orientationChange", didOrientationChange);
-
-		console.log("chosen : ", action);
-		switch(action) {
-		case "industry_leadership":
-			break;
-		case "innovative_products":
-			break;
-		case "timely_solutions":
-			break;
-		case "partnering_for_mutual_benefit":
-			break;
-		case "tool_upgrades":
-			break;
-		case "equipment_performance":
-			break;
-		case "tool_quality":
-			break;
-		case "spares_performance":
-			break;
-		case "service_contracts":
-			break;
-		case "technical_support":
-			break;
-		case "meeting_commitments":
-			break;
-		case "ease_of_doing_business":
-			break;
-		case "fast_response_to_escalations":
-			break;
-		case "tool_installation":
-			break;
-		case "on_time_delivery":
-			break;
-		}
-	};
-	
-	if (OS_ANDROID) {
-		$.modalView.addEventListener("postlayout", callback);
+		$.modalImg.image = e.source.getParent().children[0].image;
+		$.modalLbl.text = e.source.children[0].text;
+		toggleModal(function() {
+			animation.fadeIn($.modalTileView, 500, function() {
+				$.modalTileView.opacity = 1;
+			});
+		});
 	}
-	
-	$.modalView.applyProperties(modalDict);
-	
-	if (OS_IOS) {
-		callback();
+}
+
+function didClickOption(e) {
+	var source = e.source;
+	if ($.thumbUp == source) {
+		$.thumbDown.backgroundColor = "#2F2F2F";
+		$.thumbUp.backgroundColor = "#D66360";
+		$.optionView.rating = "1";
+	} else {
+		$.thumbUp.backgroundColor = "#2F2F2F";
+		$.thumbDown.backgroundColor = "#D66360";
+		$.optionView.rating = "0";
+	}
+}
+
+function didClickOK(e) {
+	if ($.optionView.rating == "none") {
+		dialog.show({
+			message : "Feeback can't be empty"
+		});
+		return;
+	}
+	closeModal();
+}
+
+function closeModal(e) {
+	animation.fadeOut($.modalTileView, 500, function() {
+		$.modalTileView.applyProperties({
+			opacity : 0,
+			visible : false
+		});
+		toggleModal();
+	});
+}
+
+function didClose(e) {
+	Ti.App.removeEventListener("orientationChange", didOrientationChange);
+}
+
+function didAndroidback(e) {
+	if ($.modalView.visible == true) {
+		closeModal();
+	} else {
+		$.main.close();
 	}
 }
