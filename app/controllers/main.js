@@ -1,21 +1,82 @@
 var args = arguments[0] || {},
     app = require("core"),
     animation = require("alloy/animation"),
-    scule = require("com.scule"),
     dialog = require("dialog"),
+    db = require("db"),
+    feedbackColl = db.getCollection(Alloy.CFG.collection.feedback),
     tileFromTop = 15,
     scrollViews = {
 	columnOne : {
 		position : 0,
-		items : ["industry_leadership", "innovative_products", "timely_solutions", "partnering_for_mutual_benefit", "tool_upgrades"]
+		items : [{
+			card_id : "indstr_ldrshp",
+			image : "/images/industry_leadership.png",
+			title : "INDUSTRY LEADERSHIP"
+		}, {
+			card_id : "innvt_prdts",
+			image : "/images/innovative_products.png",
+			title : "INNOVATIVE PRODUCTS"
+		}, {
+			card_id : "timly_soltns",
+			image : "/images/timely_solutions.png",
+			title : "TIMELY SOLUTIONS"
+		}, {
+			card_id : "prtnrng_for_mutul_bnft",
+			image : "/images/partnering_for_mutual_benefit.png",
+			title : "PARTNERING FOR MUTUAL BENEFIT"
+		}, {
+			card_id : "tool_upgrd",
+			image : "/images/tool_upgrades.png",
+			title : "TOOL UPGRADES"
+		}]
 	},
 	columnTwo : {
 		position : 0,
-		items : ["equipment_performance", "tool_quality", "spares_performance", "service_contracts", "technical_support"]
+		items : [{
+			card_id : "equpmnt_prfrmnc",
+			image : "/images/equipment_performance.png",
+			title : "EQUIPMENT PERFORMANCE"
+		}, {
+			card_id : "tool_qlty",
+			image : "/images/tool_quality.png",
+			title : "TOOL QUALITY"
+		}, {
+			card_id : "sprs_prfrmnc",
+			image : "/images/spares_performance.png",
+			title : "SPARES PERFORMANCE"
+		}, {
+			card_id : "srvc_cntrct",
+			image : "/images/service_contracts.png",
+			title : "SERVICE CONTRACTS"
+		}, {
+			card_id : "tech_supprt",
+			image : "/images/technical_support.png",
+			title : "TECHNICAL SUPPORT"
+		}]
 	},
 	columnThree : {
 		position : 0,
-		items : ["meeting_commitments", "ease_of_doing_business", "fast_response_to_escalations", "tool_installation", "on_time_delivery"]
+		items : [{
+			card_id : "mtng_cmtmnts",
+			image : "/images/meeting_commitments.png",
+			title : "MEETING COMMITMENTS"
+		}, {
+			card_id : "ease_of_doing_biz",
+			image : "/images/ease_of_doing_business.png",
+			title : "EASE OF DOING_BUSINESS"
+		}, {
+			card_id : "fst_rspns_to_escltn",
+			image : "/images/fast_response_to_escalations.png",
+			title : "FAST RESPONSE TO ESCALATIONS"
+		}, {
+			card_id : "tool_instl",
+			image : "/images/tool_installation.png",
+			title : "TOOL INSTALLATION"
+		}, {
+			card_id : "on_time_dlvry",
+			image : "/images/on_time_delivery.png",
+			title : "ON TIME DELIVERY"
+		}]
 	}
 },
     tilePWidth,
@@ -27,13 +88,14 @@ var args = arguments[0] || {},
 	app.init();
 	var circleWidth = getDimensions().circleWidth;
 	for (var i in scrollViews) {
-		var items = scrollViews[i].items,
+		var columnIndex = scrollViews[i].position,
+		    items = scrollViews[i].items,
 		    lastIndex = items.length - 1;
 		for (var j in items) {
-			$[items[j]] = $.UI.create("View", {
+			var item = items[j];
+			$[item.card_id] = $.UI.create("View", {
 				apiName : "View",
-				classes : j == lastIndex ? ["tile-from-top", "tile-from-bottom", "width-100", "auto-height"] : ["tile-from-top", "width-100", "auto-height"],
-				id : "#".concat(items[j])
+				classes : j == lastIndex ? ["tile-from-top", "tile-from-bottom", "width-100", "auto-height"] : ["tile-from-top", "width-100", "auto-height"]
 			});
 			var imageView = $.UI.create("ImageView", {
 				apiName : "ImageView",
@@ -50,16 +112,20 @@ var args = arguments[0] || {},
 				apiName : "Label",
 				classes : ["touch-disabled", "width-90", "text-center", "h2", "fg-naviblue"]
 			});
-			label.text = items[j].replace(/_/g, " ").toUpperCase();
-			imageView.image = "/images/".concat(items[j]).concat(".png");
+			label.text = item.title;
+			imageView.image = item.image;
 			circleView.add(label);
-			$[items[j]].add(imageView);
-			$[items[j]].add(circleView);
-			$[items[j]].formId = items[j];
-			$[items[j]].tileText = label.text;
-			$[items[j]].imagePath = imageView.image;
-			$[items[j]].addEventListener("click", didClickTile);
-			$[i].add($[items[j]]);
+			$[item.card_id].add(imageView);
+			$[item.card_id].add(circleView);
+			$[item.card_id].card_id = item.card_id;
+			$[item.card_id].tileText = item.title;
+			$[item.card_id].imagePath = item.image;
+			$[item.card_id].position = {
+				column : columnIndex,
+				row : j
+			};
+			$[item.card_id].addEventListener("click", didClickTile);
+			$[i].add($[item.card_id]);
 		}
 	}
 })();
@@ -86,9 +152,7 @@ function checkForEmail(e) {
 }
 
 function getEmail() {
-	var emailColl = scule.factoryCollection(Alloy.CFG.collection.email, {
-		secret : Alloy.CFG.secret
-	});
+	var emailColl = db.getCollection(Alloy.CFG.collection.email);
 	return (emailColl.find({}, {
 	$limit : 1
 	})[0] || {}).email;
@@ -154,14 +218,18 @@ function didScroll(e) {
 }
 
 function didClickTile(e) {
-	if ($.modalView.visible == false) {
-		$.modalView.formId = e.source.formId;
-		$.modalImg.image = e.source.imagePath;
-		$.modalLbl.text = e.source.tileText;
-		$.optionView.rating = "none";
-		$.thumbUp.backgroundColor = "#2F2F2F";
-		$.thumbDown.backgroundColor = "#2F2F2F";
-		$.txta.setValue("");
+	var tileView = e.source,
+	    feedbackRecord = feedbackColl.find({
+	card_id : tileView.card_id
+	})[0] || {};
+	if ($.modalView.visible == false && (feedbackColl.getLength() < 4 || !_.isEmpty(feedbackRecord))) {
+		$.modalView.card_id = tileView.card_id;
+		$.modalImg.image = tileView.imagePath;
+		$.modalLbl.text = tileView.tileText;
+		$.optionView.feedback = feedbackRecord.feedback || "none";
+		$.thumbUp.backgroundColor = feedbackRecord.feedback == "1" ? "#D66360" : "#2F2F2F";
+		$.thumbDown.backgroundColor = feedbackRecord.feedback == "0" ? "#D66360" : "#2F2F2F";
+		$.txta.setValue(feedbackRecord.comments || "");
 		toggleModal();
 	}
 }
@@ -171,21 +239,40 @@ function didClickOption(e) {
 	if ($.thumbUp == source) {
 		$.thumbDown.backgroundColor = "#2F2F2F";
 		$.thumbUp.backgroundColor = "#D66360";
-		$.optionView.rating = "1";
+		$.optionView.feedback = "1";
 	} else {
 		$.thumbUp.backgroundColor = "#2F2F2F";
 		$.thumbDown.backgroundColor = "#D66360";
-		$.optionView.rating = "0";
+		$.optionView.feedback = "0";
 	}
 }
 
 function didClickOK(e) {
-	if ($.optionView.rating == "none") {
+	if ($.optionView.feedback == "none") {
 		dialog.show({
 			message : "Feeback can't be empty"
 		});
 		return;
 	}
+	var feedbackRecord = feedbackColl.find({
+	id : $.modalView.card_id
+	})[0] || {};
+	_.extend(feedbackRecord, {
+		card_id : $.modalView.card_id,
+		feedback : $.optionView.feedback,
+		comments : $.txta.value
+	});
+	if (_.has(feedbackRecord, "_id")) {
+		feedbackColl.update({
+			card_id : $.modalView.card_id
+		}, {
+			$set : _.omit(feedbackRecord, ["_id"])
+		});
+	} else {
+		feedbackColl.save(feedbackRecord);
+	}
+	console.log(feedbackRecord);
+	db.commit(feedbackColl);
 	closeModal();
 }
 
@@ -200,11 +287,9 @@ function didCancelSurvey(e) {
 		buttonNames : ["Cancel", "OK"],
 		cancelIndex : 0,
 		success : function() {
-			var emailColl = scule.factoryCollection(Alloy.CFG.collection.email, {
-				secret : Alloy.CFG.secret
-			});
-			emailColl.remove({});
-			emailColl.commit();
+			var emailColl = db.getCollection(Alloy.CFG.collection.email);
+			emailColl.clear();
+			db.commit(emailColl);
 			checkForEmail();
 		}
 	});
