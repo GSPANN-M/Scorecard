@@ -19,6 +19,7 @@
 				<ScrollView id="columnThree" class="from-left width-32 vgroup" onScroll="didScroll" />
 			</View>
 		</View>
+		<View id="floatingBarView" class="template" />
 		<View id="modalView" class="fill hidden hidden-opacity">
 			<View id="modalBgView" />
 			<ScrollView class="vgroup">

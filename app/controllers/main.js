@@ -181,8 +181,16 @@ function closeModal(e) {
 }
 
 function didCancelSurvey(e) {
-	Ti.App.Properties.removeProperty("email");
-	checkForEmail();
+	dialog.show({
+		title : "Are you sure?",
+		message : "The existing survey will be deleted.",
+		buttonNames : ["Cancel", "OK"],
+		cancelIndex : 0,
+		success : function() {
+			Ti.App.Properties.removeProperty("email");
+			checkForEmail();
+		}
+	});
 }
 
 function didClose(e) {

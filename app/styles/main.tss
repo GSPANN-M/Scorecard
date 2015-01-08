@@ -140,6 +140,10 @@
 	},
 	action: "on_time_delivery"
 },
+"#floatingBarView":{
+	height: 90,
+	backgroundColor: "#50FFFFFF"
+},
 "#modalBgView":{
 	backgroundColor: "#000000",
 	opacity: 0.85
@@ -148,10 +152,10 @@
 	width: 180
 },
 "#modalTileView[platform=ios]":{
-	top: 100
+	top: 90
 },
 "#modalTileView[platform=android]":{
-	top: 80
+	top: 70
 },
 "#modalCircleView":{
 	width: 144,
