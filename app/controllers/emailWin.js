@@ -7,7 +7,7 @@ function didClickSubmit(e) {
 	    regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (regexp.test(value) == false) {
 		dialog.show({
-			message : "Please enter a valid email id"
+			message : "Please enter a valid email id."
 		});
 		return;
 	}

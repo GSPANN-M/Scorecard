@@ -235,7 +235,7 @@ function didClickTile(e) {
 			toggleModal();
 		} else {
 			dialog.show({
-				message : "You can't rate about more than 4 areas"
+				message : "You can't rate about more than 4 areas."
 			});
 		}
 	}
@@ -257,7 +257,24 @@ function didClickOption(e) {
 function didClickOK(e) {
 	if ($.optionView.feedback == "none") {
 		dialog.show({
-			message : "Feeback can't be empty"
+			message : "Feeback can't be empty."
+		});
+		return;
+	}
+	var cards = feedbackColl.find({
+		card_id : {
+			$ne : $.modalView.card_id
+		}
+	}),
+	    positiveCount = 0,
+	    nagativeCount = 0;
+	for (var i in cards) {
+		cards[i].feedback == "1" ? positiveCount++ : nagativeCount++;
+	}
+	$.optionView.feedback == "1" ? positiveCount++ : nagativeCount++;
+	if (positiveCount > 2 || nagativeCount > 2) {
+		dialog.show({
+			message : "At max, you can rate about only 4 areas, 2 positive and 2 nagative."
 		});
 		return;
 	}
