@@ -1,7 +1,7 @@
 <Alloy>
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didAndroidback">
 		<View id="navBarView" class="nav-bar bg-red">
-			<View class="left width-80d">
+			<View class="left width-80d" onClick="didCancelSurvey">
 				<ImageView image="/images/wrong_enabled.png" class="right nav-icon touch-disabled" />
 			</View>
 			<View class="nav-bar-title-view">

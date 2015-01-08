@@ -43,7 +43,7 @@ var args = arguments[0] || {},
 				height : circleWidth,
 				borderRadius : circleWidth / 2,
 				backgroundColor : "#90FFFFFF",
-				touchEnabled: false
+				touchEnabled : false
 			}),
 			    label = $.UI.create("Label", {
 				apiName : "Label",
@@ -65,11 +65,6 @@ var args = arguments[0] || {},
 
 function didOpen() {
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
-	var checkForEmail = function() {
-		if (Ti.App.Properties.getString("email", "") == "") {
-			Alloy.createController("email").getView().open();
-		}
-	};
 	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
 		Ti.App.Properties.setBool("firstLaunch", true);
 		var coachMarksWin = Alloy.createController("coachMarks").getView();
@@ -77,6 +72,12 @@ function didOpen() {
 		coachMarksWin.open();
 	} else {
 		checkForEmail();
+	}
+}
+
+function checkForEmail(e) {
+	if (Ti.App.Properties.getString("email", "") == "") {
+		Alloy.createController("email").getView().open();
 	}
 }
 
@@ -177,6 +178,11 @@ function didClickOK(e) {
 
 function closeModal(e) {
 	toggleModal();
+}
+
+function didCancelSurvey(e) {
+	Ti.App.Properties.removeProperty("email");
+	checkForEmail();
 }
 
 function didClose(e) {
