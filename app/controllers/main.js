@@ -219,23 +219,25 @@ function didScroll(e) {
 }
 
 function didClickTile(e) {
-	var tileView = e.source,
-	    feedbackRecord = feedbackColl.find({
-	card_id : tileView.card_id
-	})[0] || {};
-	if (feedbackColl.getLength() < 4 || !_.isEmpty(feedbackRecord)) {
-		$.modalView.card_id = tileView.card_id;
-		$.modalImg.image = tileView.imagePath;
-		$.modalLbl.text = tileView.tileText;
-		$.optionView.feedback = feedbackRecord.feedback || "none";
-		$.thumbUp.backgroundColor = feedbackRecord.feedback == "1" ? "#D66360" : "#2F2F2F";
-		$.thumbDown.backgroundColor = feedbackRecord.feedback == "0" ? "#D66360" : "#2F2F2F";
-		$.txta.setValue(feedbackRecord.comments || "");
-		toggleModal();
-	} else {
-		dialog.show({
-			title : "You can't rate about more than 4 areas"
-		});
+	var tileView = e.source;
+	if (tileView.card_id) {
+		var feedbackRecord = feedbackColl.find({
+		card_id : tileView.card_id
+		})[0] || {};
+		if (feedbackColl.getLength() < 4 || !_.isEmpty(feedbackRecord)) {
+			$.modalView.card_id = tileView.card_id;
+			$.modalImg.image = tileView.imagePath;
+			$.modalLbl.text = tileView.tileText;
+			$.optionView.feedback = feedbackRecord.feedback || "none";
+			$.thumbUp.backgroundColor = feedbackRecord.feedback == "1" ? "#D66360" : "#2F2F2F";
+			$.thumbDown.backgroundColor = feedbackRecord.feedback == "0" ? "#D66360" : "#2F2F2F";
+			$.txta.setValue(feedbackRecord.comments || "");
+			toggleModal();
+		} else {
+			dialog.show({
+				message : "You can't rate about more than 4 areas"
+			});
+		}
 	}
 }
 
@@ -273,16 +275,19 @@ function didClickOK(e) {
 		}, {
 			$set : _.omit(feedbackRecord, ["_id"])
 		});
+		$[feedbackRecord.card_id].children[3].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
 	} else {
 		feedbackColl.save(feedbackRecord);
+		updateFilledTiles($.modalView.card_id);
 	}
 	db.commit(feedbackColl);
-	updateFilledTiles();
 	closeModal();
 }
 
-function updateFilledTiles() {
-	var cards = feedbackColl.findAll();
+function updateFilledTiles(cardId) {
+	var cards = cardId ? feedbackColl.find({
+		card_id : cardId
+	}) : feedbackColl.findAll();
 	for (var i in cards) {
 		var cardId = cards[i].card_id,
 		    selectedCard = $[cardId];
@@ -294,18 +299,49 @@ function updateFilledTiles() {
 			    closeIcon = Ti.UI.createImageView({
 				width : 20,
 				height : 20,
-				image : "/images/close.png"
+				image : "/images/close.png",
+				touchEnabled : false
+			}),
+			    thumbIcon = Ti.UI.createImageView({
+				bottom : 15,
+				width : 40,
+				height : 40,
+				image : "/images/" + (cards[i].feedback == "0" ? "thumb_down" : "thumb_up") + ".png"
 			});
+			closeView.addEventListener("click", didRemoveFeedback);
 			closeView.add(closeIcon);
 			selectedCard.children[1].backgroundColor = "#D66360";
 			selectedCard.children[1].children[0].color = "#FFFFFF";
 			selectedCard.add(closeView);
+			selectedCard.add(thumbIcon);
 		}
 	}
 }
 
 function closeModal(e) {
 	toggleModal();
+}
+
+function didRemoveFeedback(e) {
+	var cardId = e.source.getParent().card_id;
+	dialog.show({
+		title : "Are you sure?",
+		message : "This feedback will be deleted.",
+		buttonNames : ["Cancel", "OK"],
+		cancelIndex : 0,
+		success : function() {
+			feedbackColl.remove({
+				card_id : cardId
+			});
+			db.commit(feedbackColl);
+			var selectedCard = $[cardId],
+			    children = selectedCard.children;
+			selectedCard.children[1].backgroundColor = "#90FFFFFF";
+			selectedCard.children[1].children[0].color = "#160C4C";
+			selectedCard.remove(children[2]);
+			selectedCard.remove(children[3]);
+		}
+	});
 }
 
 function didCancelSurvey(e) {
