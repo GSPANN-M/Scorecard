@@ -293,7 +293,9 @@ function didClickOK(e) {
 		}, {
 			$set : _.omit(feedbackRecord, ["_id"])
 		});
-		$[feedbackRecord.card_id].children[3].children[0].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
+		var thumbImgPath = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
+		$[feedbackRecord.card_id].children[3].children[0].image = thumbImgPath;
+		$[feedbackRecord.card_id.concat("_thumb")].children[0].image = thumbImgPath;
 	} else {
 		feedbackColl.save(feedbackRecord);
 		updateFilledTiles($.modalView.card_id);
@@ -338,6 +340,7 @@ function updateFilledTiles(cardId) {
 			selectedCard.add(thumbView);
 		}
 	}
+	updateFlotingBar(cards);
 }
 
 function closeModal(e) {
@@ -368,6 +371,11 @@ function updateCardWithNoFeedback(cardId) {
 	selectedCard.children[1].children[0].color = "#160C4C";
 	selectedCard.remove(children[2]);
 	selectedCard.remove(children[3]);
+	$.thumbsContainer.remove($[cardId.concat("_thumb")]);
+	$[cardId.concat("_thumb")] = null;
+	if ($.thumbsContainer.children.length == 0) {
+		$.floatingBarView.visible = false;
+	}
 }
 
 function didCancelSurvey(e) {
@@ -389,6 +397,29 @@ function didCancelSurvey(e) {
 			checkForEmail();
 		}
 	});
+}
+
+function updateFlotingBar(cards) {
+	if (cards.length) {
+		$.floatingBarView.visible = true;
+		for (var i in cards) {
+			var card = cards[i];
+			if (!$[card.card_id.concat("_thumb")]) {
+				$[card.card_id.concat("_thumb")] = $.UI.create("View", {
+					apiName : "View",
+					classes : ["option-view", "padding-right"]
+				});
+				var thumbIcon = Ti.UI.createImageView({
+					image : "/images/" + (card.feedback == "0" ? "thumb_down" : "thumb_up") + ".png",
+					touchEnabled : false
+				});
+				$[card.card_id.concat("_thumb")].add(thumbIcon);
+				$.thumbsContainer.add($[card.card_id.concat("_thumb")]);
+			}
+		}
+	} else {
+		$.floatingBarView.visible = false;
+	}
 }
 
 function didClose(e) {

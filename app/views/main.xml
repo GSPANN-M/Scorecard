@@ -19,7 +19,9 @@
 				<ScrollView id="columnThree" class="column vgroup" onScroll="didScroll" />
 			</View>
 		</View>
-		<View id="floatingBarView" class="template hidden" />
+		<View id="floatingBarView" class="template hidden">
+			<View id="thumbsContainer" class="auto hgroup" />
+		</View>
 		<View id="modalView" class="fill hidden hidden-opacity">
 			<View class="bg-semitransparent" />
 			<ScrollView class="vgroup">
