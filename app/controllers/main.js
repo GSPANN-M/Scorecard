@@ -133,6 +133,9 @@ var args = arguments[0] || {},
 		updateFilledTiles();
 		updateFlotingBar();
 	}
+	Alloy.Globals.submissionTileWidth = ((app.device.orientation == "landscape" ? app.device.height : app.device.width) - 100 ) / 4;
+	Alloy.Globals.submissionCircleWidth = Alloy.Globals.submissionTileWidth - 36;
+	Alloy.Globals.submissionCircleRadius = Alloy.Globals.submissionCircleWidth / 2;
 })();
 
 function didOpen() {

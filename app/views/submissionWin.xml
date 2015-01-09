@@ -1,5 +1,5 @@
 <Alloy>
-	<Window>
+	<Window onAndroidback="didBack">
 		<View id="navBarView" class="nav-bar bg-red">
 			<View class="left width-80d" onClick="didBack">
 				<ImageView image="/images/back.png" class="right nav-icon touch-disabled" />
@@ -9,5 +9,19 @@
 				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
 			</View>
 		</View>
+		<ScrollView class="template vgroup">
+			<View id="tileContainer" class="margin-top auto hgroup no-hwrap" />
+			<Widget id="txta" src="com.mykingdom.textarea" class="margin-top width-75 h2 bg-white" />
+			<Label id="hintLbl" class="margin-top width-80 fg-white text-center" />
+			<View id="optionView" feedback="none" class="margin-top auto hgroup no-hwrap">
+				<View id="thumbUp" class="option-view" onClick="didClickOption">
+					<ImageView image="/images/thumb_up.png" class="touch-disabled" />
+				</View>
+				<View id="thumbDown" class="padding-left option-view" onClick="didClickOption">
+					<ImageView image="/images/thumb_down.png" class="touch-disabled" />
+				</View>
+			</View>
+			<Button id="submitBtn" title="Submit Survey" class="margin-bottom primary-button" onClick="didClickSubmit" />
+		</ScrollView>
 	</Window>
 </Alloy>

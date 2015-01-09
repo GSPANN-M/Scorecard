@@ -20,7 +20,7 @@
 			</View>
 		</View>
 		<View id="floatingBarView" class="template">
-			<View id="thumbsContainer" class="auto hgroup">
+			<View id="thumbsContainer" class="auto hgroup no-hwrap">
 				<ImageView id="thumb0" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
 				<ImageView id="thumb1" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
 				<ImageView id="thumb2" image="/images/thumb_down_grey.png" class="padding-right floating-bar-thumb" />

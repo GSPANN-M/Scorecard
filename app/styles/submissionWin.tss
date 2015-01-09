@@ -9,4 +9,35 @@
 },
 "#titleLbl":{
 	text: "Customer Survey"
+},
+".tile-view":{
+	width: Alloy.Globals.submissionTileWidth
+},
+".circle-view":{
+	width: Alloy.Globals.submissionCircleWidth,
+	height: Alloy.Globals.submissionCircleWidth,
+	borderRadius: Alloy.Globals.submissionCircleRadius,
+	backgroundColor: "#90FFFFFF"
+},
+"#hintLbl":{
+	text: "Would you recommend Lam?",
+	font:{
+		fontFamily: "Lato-Bold",
+		fontSize: 32
+	}
+},
+".option-view":{
+	width: 70,
+	height: 70,
+	borderRadius: 35,
+	backgroundColor: "#2F2F2F"
+},
+"#txta":{
+	hintText: "Additional feedback (optional)",
+	height: 140,
+	borderRadius: 6,
+	suppressReturn: true
+},
+"#submitBtn":{
+	top: 20
 }
