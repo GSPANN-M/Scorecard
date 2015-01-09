@@ -1,0 +1,13 @@
+<Alloy>
+	<Window>
+		<View id="navBarView" class="nav-bar bg-red">
+			<View class="left width-80d" onClick="didBack">
+				<ImageView image="/images/back.png" class="right nav-icon touch-disabled" />
+			</View>
+			<View class="nav-bar-title-view">
+				<ImageView class="margin-top logo" />
+				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
+			</View>
+		</View>
+	</Window>
+</Alloy>

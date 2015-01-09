@@ -13,12 +13,12 @@
 ".nav-icon":{
 	width: 50
 },
+"#titleLbl":{
+	text: "Customer Survey"
+},
 "#tileContainer":{
 	left: "2%",
 	right: "2%"
-},
-"#titleLbl":{
-	text: "Customer Survey"
 },
 ".tile-from-top":{
 	top: 20
@@ -41,7 +41,7 @@
 	identifier: "columnThree"
 },
 "#floatingBarView":{
-	height: 90,
+	height: 70,
 	backgroundColor: "#50FFFFFF"
 },
 ".zindex-0":{
@@ -90,6 +90,9 @@
 	height: 70,
 	borderRadius: 35,
 	backgroundColor: "#2F2F2F"
+},
+".floating-bar-thumb":{
+	width: 50
 },
 "#txta":{
 	hintText: "Additional feedback (optional)",

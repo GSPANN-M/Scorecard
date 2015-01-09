@@ -5,11 +5,11 @@
 				<ImageView image="/images/wrong_enabled.png" class="right nav-icon touch-disabled" />
 			</View>
 			<View class="nav-bar-title-view">
-				<ImageView class="tile-from-top logo" />
+				<ImageView class="margin-top logo" />
 				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
 			</View>
-			<View class="right width-80d">
-				<ImageView image="/images/right_disabled.png" class="left nav-icon touch-disabled" />
+			<View class="right width-80d" onClick="didClickSubmit">
+				<ImageView id="submitIcon" image="/images/right_disabled.png" class="left nav-icon touch-disabled" />
 			</View>
 		</View>
 		<View id="template" class="template">
@@ -19,8 +19,13 @@
 				<ScrollView id="columnThree" class="column vgroup" onScroll="didScroll" />
 			</View>
 		</View>
-		<View id="floatingBarView" class="template hidden">
-			<View id="thumbsContainer" class="auto hgroup" />
+		<View id="floatingBarView" class="template">
+			<View id="thumbsContainer" class="auto hgroup">
+				<ImageView id="thumb0" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumb1" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumb2" image="/images/thumb_down_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumb3" image="/images/thumb_down_grey.png" class="floating-bar-thumb" />
+			</View>
 		</View>
 		<View id="modalView" class="fill hidden hidden-opacity">
 			<View class="bg-semitransparent" />

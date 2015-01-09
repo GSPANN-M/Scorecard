@@ -129,6 +129,10 @@ var args = arguments[0] || {},
 			$[i].add($[item.card_id]);
 		}
 	}
+	if (feedbackColl.getLength()) {
+		updateFilledTiles();
+		updateFlotingBar();
+	}
 })();
 
 function didOpen() {
@@ -141,7 +145,6 @@ function didOpen() {
 	} else {
 		checkForEmail();
 	}
-	updateFilledTiles();
 }
 
 function checkForEmail(e) {
@@ -293,13 +296,12 @@ function didClickOK(e) {
 		}, {
 			$set : _.omit(feedbackRecord, ["_id"])
 		});
-		var thumbImgPath = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
-		$[feedbackRecord.card_id].children[3].children[0].image = thumbImgPath;
-		$[feedbackRecord.card_id.concat("_thumb")].children[0].image = thumbImgPath;
+		$[feedbackRecord.card_id].children[3].children[0].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
 	} else {
 		feedbackColl.save(feedbackRecord);
 		updateFilledTiles($.modalView.card_id);
 	}
+	updateFlotingBar();
 	db.commit(feedbackColl);
 	closeModal();
 }
@@ -340,7 +342,6 @@ function updateFilledTiles(cardId) {
 			selectedCard.add(thumbView);
 		}
 	}
-	updateFlotingBar(cards);
 }
 
 function closeModal(e) {
@@ -360,7 +361,7 @@ function didRemoveFeedback(e) {
 	});
 }
 
-function updateCardWithNoFeedback(cardId) {
+function updateCardWithNoFeedback(cardId, doUpdateFlotingBar) {
 	feedbackColl.remove({
 		card_id : cardId
 	});
@@ -371,10 +372,8 @@ function updateCardWithNoFeedback(cardId) {
 	selectedCard.children[1].children[0].color = "#160C4C";
 	selectedCard.remove(children[2]);
 	selectedCard.remove(children[3]);
-	$.thumbsContainer.remove($[cardId.concat("_thumb")]);
-	$[cardId.concat("_thumb")] = null;
-	if ($.thumbsContainer.children.length == 0) {
-		$.floatingBarView.visible = false;
+	if (doUpdateFlotingBar !== false) {
+		updateFlotingBar();
 	}
 }
 
@@ -384,41 +383,52 @@ function didCancelSurvey(e) {
 		message : "The existing survey will be deleted.",
 		buttonNames : ["Cancel", "OK"],
 		cancelIndex : 0,
-		success : function() {
-			var emailColl = db.getCollection(Alloy.CFG.collection.email);
-			emailColl.clear();
-			db.commit(emailColl);
-			var cards = feedbackColl.findAll();
-			for (var i in cards) {
-				updateCardWithNoFeedback(cards[i].card_id);
-			}
-			feedbackColl.clear();
-			db.commit(feedbackColl);
-			checkForEmail();
-		}
+		success : clearSurvey
 	});
 }
 
-function updateFlotingBar(cards) {
-	if (cards.length) {
-		$.floatingBarView.visible = true;
-		for (var i in cards) {
-			var card = cards[i];
-			if (!$[card.card_id.concat("_thumb")]) {
-				$[card.card_id.concat("_thumb")] = $.UI.create("View", {
-					apiName : "View",
-					classes : ["option-view", "padding-right"]
-				});
-				var thumbIcon = Ti.UI.createImageView({
-					image : "/images/" + (card.feedback == "0" ? "thumb_down" : "thumb_up") + ".png",
-					touchEnabled : false
-				});
-				$[card.card_id.concat("_thumb")].add(thumbIcon);
-				$.thumbsContainer.add($[card.card_id.concat("_thumb")]);
-			}
+function clearSurvey() {
+	var emailColl = db.getCollection(Alloy.CFG.collection.email);
+	emailColl.clear();
+	db.commit(emailColl);
+	var cards = feedbackColl.findAll();
+	for (var i in cards) {
+		updateCardWithNoFeedback(cards[i].card_id, false);
+	}
+	feedbackColl.clear();
+	db.commit(feedbackColl);
+	updateFlotingBar();
+	checkForEmail();
+}
+
+function updateFlotingBar() {
+	var cards = feedbackColl.findAll();
+	for (var i = 0; i < 4; i++) {
+		var card = cards[i] || {},
+		    image = "/images/";
+		if (_.isEmpty(card)) {
+			image += (i < 2 ? "thumb_up" : "thumb_down") + "_grey.png";
+		} else {
+			image += (card.feedback == "0" ? "thumb_down" : "thumb_up") + "_red.png";
 		}
+		$["thumb".concat(i)].image = image;
+	}
+	if (cards.length) {
+		$.submitIcon.image = "/images/right_enabled.png";
 	} else {
-		$.floatingBarView.visible = false;
+		$.submitIcon.image = "/images/right_disabled.png";
+	}
+}
+
+function didClickSubmit(e) {
+	if ($.submitIcon.image == "/images/right_enabled.png") {
+		var submissionWin = Alloy.createController("submissionWin").getView();
+		submissionWin.addEventListener("close", function() {
+			if (!submissionWin.didBack) {
+				clearSurvey();
+			}
+		});
+		Alloy.Globals.openWindow(submissionWin);
 	}
 }
 
