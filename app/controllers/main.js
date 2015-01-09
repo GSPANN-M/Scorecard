@@ -120,6 +120,7 @@ var args = arguments[0] || {},
 			$[item.card_id].card_id = item.card_id;
 			$[item.card_id].tileText = item.title;
 			$[item.card_id].imagePath = item.image;
+			$[item.card_id].selectedImagePath = item.image.replace(".png", "_grey.png");
 			$[item.card_id].position = {
 				column : columnIndex,
 				row : j
@@ -292,7 +293,7 @@ function didClickOK(e) {
 		}, {
 			$set : _.omit(feedbackRecord, ["_id"])
 		});
-		$[feedbackRecord.card_id].children[3].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
+		$[feedbackRecord.card_id].children[3].children[0].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
 	} else {
 		feedbackColl.save(feedbackRecord);
 		updateFilledTiles($.modalView.card_id);
@@ -319,18 +320,22 @@ function updateFilledTiles(cardId) {
 				image : "/images/close.png",
 				touchEnabled : false
 			}),
+			    thumbView = $.UI.create("View", {
+				apiName : "View",
+				classes : ["bg-red", "touch-disabled", "thumb-view"]
+			}),
 			    thumbIcon = Ti.UI.createImageView({
-				bottom : 10,
-				width : 40,
-				height : 40,
-				image : "/images/" + (cards[i].feedback == "0" ? "thumb_down" : "thumb_up") + ".png"
+				width : 35,
+				image : "/images/" + (cards[i].feedback == "0" ? "thumb_down" : "thumb_up") + ".png",
+				touchEnabled : false
 			});
 			closeView.addEventListener("click", didRemoveFeedback);
 			closeView.add(closeIcon);
-			selectedCard.children[1].backgroundColor = "#D66360";
-			selectedCard.children[1].children[0].color = "#FFFFFF";
+			thumbView.add(thumbIcon);
+			selectedCard.children[0].image = selectedCard.selectedImagePath;
+			selectedCard.children[1].children[0].color = "#D66360";
 			selectedCard.add(closeView);
-			selectedCard.add(thumbIcon);
+			selectedCard.add(thumbView);
 		}
 	}
 }
@@ -359,7 +364,7 @@ function updateCardWithNoFeedback(cardId) {
 	db.commit(feedbackColl);
 	var selectedCard = $[cardId],
 	    children = selectedCard.children;
-	selectedCard.children[1].backgroundColor = "#90FFFFFF";
+	selectedCard.children[0].image = selectedCard.imagePath;
 	selectedCard.children[1].children[0].color = "#160C4C";
 	selectedCard.remove(children[2]);
 	selectedCard.remove(children[3]);

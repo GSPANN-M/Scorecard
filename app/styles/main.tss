@@ -57,6 +57,12 @@
 	backgroundColor: "#000000",
 	opacity: 0.85
 },
+".thumb-view":{
+	bottom: 10,
+	width: 40,
+	height: 40,
+	borderRadius: 20
+},
 ".close-view":{
 	top: 0,
 	left: 5,
