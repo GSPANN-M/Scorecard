@@ -65,7 +65,11 @@ var args = arguments[0] || {},
 }];
 
 (function() {
-	var cards = feedbackColl.findAll(),
+	var cards = feedbackColl.find({}, {
+		$sort : {
+			feedback : -1
+		}
+	}),
 	    lastIndex = cards.length - 1;
 	for (var i in cards) {
 		var item = _.findWhere(items, {

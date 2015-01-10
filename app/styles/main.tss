@@ -7,8 +7,11 @@
 ".column":{
 	width: "33.3%"
 },
-".width-80d":{
-	width: 80
+".icon-container":{
+	top: 10,
+	bottom: 10,
+	width: 60,
+	backgroundColor: "#50FFFFFF"
 },
 ".nav-icon":{
 	width: 50
@@ -42,7 +45,7 @@
 },
 "#floatingBarView":{
 	height: 70,
-	backgroundColor: "#50FFFFFF"
+	backgroundColor: "#90FFFFFF"
 },
 ".zindex-0":{
 	zIndex: 0
@@ -57,18 +60,12 @@
 	backgroundColor: "#000000",
 	opacity: 0.85
 },
-".thumb-view":{
+".close-view":{
 	bottom: 10,
 	width: 40,
 	height: 40,
-	borderRadius: 20
-},
-".close-view":{
-	top: 0,
-	left: 5,
-	width: 40,
-	height: 40,
-	borderRadius: 20
+	borderRadius: 20,
+	backgroundColor: "#FFFFFF"
 },
 "#modalTileView":{
 	width: 180

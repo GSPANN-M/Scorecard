@@ -299,7 +299,7 @@ function didClickOK(e) {
 		}, {
 			$set : _.omit(feedbackRecord, ["_id"])
 		});
-		$[feedbackRecord.card_id].children[3].children[0].image = "/images/" + (feedbackRecord.feedback == "0" ? "thumb_down" : "thumb_up") + ".png";
+		$[feedbackRecord.card_id].children[1].children[1].image = "/images/" + (feedbackRecord.feedback == "0" ? "sad_white" : "smile_white") + ".png";
 	} else {
 		feedbackColl.save(feedbackRecord);
 		updateFilledTiles($.modalView.card_id);
@@ -319,30 +319,23 @@ function updateFilledTiles(cardId) {
 		if (selectedCard && selectedCard.children.length == 2) {
 			var closeView = $.UI.create("View", {
 				apiName : "View",
-				classes : ["bg-red", "close-view"]
+				classes : ["close-view"]
 			}),
 			    closeIcon = Ti.UI.createImageView({
-				width : 20,
-				height : 20,
-				image : "/images/close.png",
+				image : "/images/wrong_enabled.png",
 				touchEnabled : false
 			}),
-			    thumbView = $.UI.create("View", {
-				apiName : "View",
-				classes : ["bg-red", "touch-disabled", "thumb-view"]
-			}),
-			    thumbIcon = Ti.UI.createImageView({
-				width : 35,
-				image : "/images/" + (cards[i].feedback == "0" ? "thumb_down" : "thumb_up") + ".png",
-				touchEnabled : false
+			    faceImg = Ti.UI.createImageView({
+				top : 10,
+				width : 30,
+				image : "/images/" + (cards[i].feedback == "0" ? "sad_white" : "smile_white") + ".png"
 			});
 			closeView.addEventListener("click", didRemoveFeedback);
 			closeView.add(closeIcon);
-			thumbView.add(thumbIcon);
-			selectedCard.children[0].image = selectedCard.selectedImagePath;
+			selectedCard.children[1].add(faceImg);
 			selectedCard.children[1].children[0].color = "#D66360";
+			selectedCard.children[0].image = selectedCard.selectedImagePath;
 			selectedCard.add(closeView);
-			selectedCard.add(thumbView);
 		}
 	}
 }
@@ -371,10 +364,10 @@ function updateCardWithNoFeedback(cardId, doUpdateFlotingBar) {
 	db.commit(feedbackColl);
 	var selectedCard = $[cardId],
 	    children = selectedCard.children;
-	selectedCard.children[0].image = selectedCard.imagePath;
 	selectedCard.children[1].children[0].color = "#160C4C";
+	selectedCard.children[1].remove(selectedCard.children[1].children[1]);
+	selectedCard.children[0].image = selectedCard.imagePath;
 	selectedCard.remove(children[2]);
-	selectedCard.remove(children[3]);
 	if (doUpdateFlotingBar !== false) {
 		updateFlotingBar();
 	}
@@ -405,18 +398,23 @@ function clearSurvey() {
 }
 
 function updateFlotingBar() {
-	var cards = feedbackColl.findAll();
-	for (var i = 0; i < 4; i++) {
-		var card = cards[i] || {},
-		    image = "/images/";
-		if (_.isEmpty(card)) {
-			image += (i < 2 ? "thumb_up" : "thumb_down") + "_grey.png";
-		} else {
-			image += (card.feedback == "0" ? "thumb_down" : "thumb_up") + "_red.png";
-		}
-		$["thumb".concat(i)].image = image;
+	var pCards = feedbackColl.find({
+		feedback : "1"
+	}),
+	    nCards = feedbackColl.find({
+		feedback : "0"
+	});
+	for (var i = 0; i < 2; i++) {
+		var card = pCards[i] || {},
+		    image = "/images/thumb_up_" + (_.isEmpty(card) ? "grey" : "red").concat(".png");
+		$["thumbPositive".concat(i)].image = image;
 	}
-	if (cards.length) {
+	for (var i = 0; i < 2; i++) {
+		var card = nCards[i] || {},
+		    image = "/images/thumb_down_" + (_.isEmpty(card) ? "grey" : "red").concat(".png");
+		$["thumbNegative".concat(i)].image = image;
+	}
+	if (pCards.length || nCards.length) {
 		$.submitIcon.image = "/images/right_enabled.png";
 	} else {
 		$.submitIcon.image = "/images/right_disabled.png";

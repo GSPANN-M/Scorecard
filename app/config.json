@@ -10,12 +10,12 @@
 	"env:production": {},
 	"os:android": {
 		"navBarPadding": 0,
-		"navBarHeight": 127
+		"navBarHeight": 67
 	},
 	"os:blackberry": {},
 	"os:ios": {
 		"navBarPadding": 20,
-		"navBarHeight": 147
+		"navBarHeight": 87
 	},
 	"os:mobileweb": {},
 	"dependencies": {

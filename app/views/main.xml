@@ -1,16 +1,10 @@
 <Alloy>
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didAndroidback">
 		<View id="navBarView" class="nav-bar bg-red">
-			<View class="left width-80d" onClick="didCancelSurvey">
-				<ImageView image="/images/wrong_enabled.png" class="right nav-icon touch-disabled" />
-			</View>
 			<View class="nav-bar-title-view">
-				<ImageView class="margin-top logo" />
 				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
 			</View>
-			<View class="right width-80d" onClick="didClickSubmit">
-				<ImageView id="submitIcon" image="/images/right_disabled.png" class="left nav-icon touch-disabled" />
-			</View>
+			<ImageView class="margin-right logo" />
 		</View>
 		<View id="template" class="template">
 			<View id="tileContainer" class="hgroup no-hwrap">
@@ -20,11 +14,17 @@
 			</View>
 		</View>
 		<View id="floatingBarView" class="template">
+			<View class="padding-left icon-container" onClick="didCancelSurvey">
+				<ImageView image="/images/wrong_enabled.png" class="nav-icon touch-disabled" />
+			</View>
 			<View id="thumbsContainer" class="auto hgroup no-hwrap">
-				<ImageView id="thumb0" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumb1" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumb2" image="/images/thumb_down_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumb3" image="/images/thumb_down_grey.png" class="floating-bar-thumb" />
+				<ImageView id="thumbPositive0" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumbPositive1" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumbNegative0" image="/images/thumb_down_grey.png" class="padding-right floating-bar-thumb" />
+				<ImageView id="thumbNegative1" image="/images/thumb_down_grey.png" class="floating-bar-thumb" />
+			</View>
+			<View class="padding-right icon-container" onClick="didClickSubmit">
+				<ImageView id="submitIcon" image="/images/right_disabled.png" class="nav-icon touch-disabled" />
 			</View>
 		</View>
 		<View id="modalView" class="fill hidden hidden-opacity">

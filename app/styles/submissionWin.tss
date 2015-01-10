@@ -4,8 +4,11 @@
 ".width-80d":{
 	width: 80
 },
+".nav-icon-view":{
+	top: Alloy.CFG.navBarPadding
+},
 ".nav-icon":{
-	width: 50
+	width: 40
 },
 "#titleLbl":{
 	text: "Customer Survey"

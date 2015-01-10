@@ -105,7 +105,7 @@
 ".h1":{
 	font:{
 		fontFamily: "Lato-Regular",
-		fontSize: 40
+		fontSize: 28
 	}
 },
 ".h2":{
@@ -156,12 +156,12 @@
 },
 ".nav-bar-title-view":{
 	top: Alloy.CFG.navBarPadding,
-	left: 80,
-	right: 80,
+	left: 140,
+	right: 140,
 	layout: "vertical"
 },
 ".logo":{
-	height: 32,
+	height: 30,
 	image: "/images/logo.png"
 },
 ".template":{
