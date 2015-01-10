@@ -1,4 +1,5 @@
 var args = arguments[0] || {},
+    http = require("http"),
     dialog = require("dialog"),
     db = require("db"),
     feedbackColl = db.getCollection(Alloy.CFG.collection.feedback),
@@ -131,5 +132,16 @@ function didClickSubmit(e) {
 		});
 		return;
 	}
+	var feedbacks = feedbackColl.findAll();
+	feedbacks = _.map(feedbacks, function(obj) {
+		delete obj._id;
+	});
+	var requestObj = {
+		cust_eml_id : db.getCollection(Alloy.CFG.collection.email).findAll()[0].email,
+		feedback : feedbacks,
+		other_feedback : $.txta.getValue(),
+		recommend_LAM : $.optionView.feedback
+	};
+	console.log(requestObj);
 }
 

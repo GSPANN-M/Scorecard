@@ -30,4 +30,11 @@
 "#submitBtn":{
 	top: 40,
 	title: "Begin Survey"
+},
+"#loadingLbl":{
+	text: "loading, please wait...",
+	font:{
+		fontFamily: "Lato-Bold",
+		fontSize: 20
+	}
 }

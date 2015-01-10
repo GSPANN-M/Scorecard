@@ -1,8 +1,9 @@
 <Alloy>
 	<Window onAndroidback="didClickSubmit">
-		<View class="auto-height vgroup">
-			<Label id="hintLbl" class="width-80 fg-white text-center" />
-			<TextField id="txt" class="width-80 bg-white h2" onReturn="didClickSubmit" />
+		<View id="containerView" class="auto-height vgroup">
+			<Label id="loadingLbl" class="margin-top fg-white text-center hidden" />
+			<Label id="hintLbl" class="margin-top width-80 fg-white text-center" />
+			<TextField id="txt" class="margin-top width-80 bg-white h2" onReturn="didClickSubmit" />
 			<Button id="submitBtn" class="margin-bottom primary-button" onClick="didClickSubmit" />
 		</View>
 	</Window>
