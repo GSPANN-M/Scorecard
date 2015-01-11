@@ -63,7 +63,8 @@ var args = arguments[0] || {},
 	card_id : "on_time_dlvry",
 	image : "/images/on_time_delivery.png",
 	title : "ON TIME DELIVERY"
-}];
+}],
+    isBusy = false;
 
 (function() {
 	var cards = feedbackColl.find({}, {
@@ -108,11 +109,17 @@ var args = arguments[0] || {},
 })();
 
 function didBack(e) {
+	if (isBusy) {
+		return;
+	}
 	$.submissionWin.didBack = true;
 	Alloy.Globals.closeWindow($.submissionWin);
 }
 
 function didClickOption(e) {
+	if (isBusy) {
+		return;
+	}
 	var source = e.source;
 	if ($.thumbUp == source) {
 		$.thumbDown.backgroundColor = "#2F2F2F";
@@ -126,6 +133,11 @@ function didClickOption(e) {
 }
 
 function didClickSubmit(e) {
+	if (isBusy) {
+		return;
+	}
+	isBusy = true;
+	$.loadingLbl.visible = true;
 	if ($.optionView.feedback == "none") {
 		dialog.show({
 			message : "Feeback can't be empty."
@@ -142,6 +154,29 @@ function didClickSubmit(e) {
 		other_feedback : $.txta.getValue(),
 		recommend_LAM : $.optionView.feedback
 	};
-	console.log(requestObj);
+	http.request({
+		url : "http://vcclamresearch.com:88/SurveyService.svc​/submitSurvey",
+		type : "POST",
+		data : requestObj,
+		success : function() {
+			dialog.show({
+				title : "Thank You",
+				message : "Your feedback has been sent.",
+				buttonNames : ["OK"],
+				cancelIndex : 0,
+				cancel : function() {
+					$.submissionWin.close();
+				}
+			});
+		},
+		failure : function() {
+			dialog.show({
+				message : "You seem to be offline, please check your internet connection"
+			});
+		},
+		done : function() {
+			isBusy = false;
+			$.loadingLbl.visible = false;
+		}
+	});
 }
-
