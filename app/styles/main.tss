@@ -24,15 +24,14 @@
 	right: "2%"
 },
 ".tile-from-top":{
-	top: 20
+	top: 15
 },
 ".tile-from-bottom":{
-	bottom: 30
+	bottom: 15
 },
 ".tile-img":{
-	top: 10,
-	left: 15,
-	right: 15
+	left: 10,
+	right: 10
 },
 "#columnOne":{
 	identifier: "columnOne"
@@ -44,8 +43,12 @@
 	identifier: "columnThree"
 },
 "#floatingBarView":{
-	height: 70,
+	height: 80,
 	backgroundColor: "#90FFFFFF"
+},
+"#thumbsContainer":{
+	height: 60,
+	backgroundColor: "#50FFFFFF"
 },
 ".zindex-0":{
 	zIndex: 0
@@ -95,5 +98,6 @@
 	hintText: "Additional feedback (optional)",
 	height: 140,
 	borderRadius: 6,
-	suppressReturn: true
+	suppressReturn: true,
+	returnKeyType: Ti.UI.RETURNKEY_DONE
 }

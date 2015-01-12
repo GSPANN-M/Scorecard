@@ -9,8 +9,6 @@ function didClickSubmit(e) {
 	if (isBusy) {
 		return;
 	}
-	isBusy = true;
-	$.loadingLbl.visible = true;
 	var value = $.txt.value,
 	    regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	if (regexp.test(value) == false) {
@@ -19,16 +17,27 @@ function didClickSubmit(e) {
 		});
 		return;
 	}
+	isBusy = true;
+	$.loadingLbl.visible = true;
 	http.request({
 		url : "http://vcclamresearch.com:88/SurveyService.svc/validate/".concat(value),
+		format : "JSON",
 		success : function(result) {
-			storeEmail(value);
+			if (result.Result == "Success") {
+				storeEmail(value);
+			} else {
+				isBusy = false;
+				$.loadingLbl.visible = false;
+				dialog.show({
+					message : result.Message
+				});
+			}
 		},
 		failure : function() {
 			isBusy = false;
 			$.loadingLbl.visible = false;
 			dialog.show({
-				message : "You seem to be offline, please check your internet connection"
+				message : "Something went wrong, please check your internet connectivity."
 			});
 		}
 	});

@@ -39,7 +39,8 @@
 	hintText: "Additional feedback (optional)",
 	height: 140,
 	borderRadius: 6,
-	suppressReturn: true
+	suppressReturn: true,
+	returnKeyType: Ti.UI.RETURNKEY_DONE
 },
 "#submitBtn":{
 	top: 20

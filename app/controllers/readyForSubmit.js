@@ -122,18 +122,22 @@ var args = arguments[0] || {},
 
 function didRemoveFeedback(e) {
 	var cardId = e.source.getParent().card_id;
-	dialog.show({
-		title : "Are you sure?",
-		message : "This feedback will be deleted.",
-		buttonNames : ["Cancel", "OK"],
-		cancelIndex : 0,
-		success : function() {
-			$.tileContainer.remove($[cardId]);
-			$.trigger("removeFeedback", {
-				card_id : cardId
-			});
-		}
+	animation.fadeAndRemove($[cardId], 500, $.tileContainer);
+	$.trigger("removeFeedback", {
+		card_id : cardId
 	});
+	/*dialog.show({
+	 title : "Are you sure?",
+	 message : "This feedback will be deleted.",
+	 buttonNames : ["Cancel", "OK"],
+	 cancelIndex : 0,
+	 success : function() {
+	 $.tileContainer.remove($[cardId]);
+	 $.trigger("removeFeedback", {
+	 card_id : cardId
+	 });
+	 }
+	 });*/
 }
 
 function didClickCancel(e) {

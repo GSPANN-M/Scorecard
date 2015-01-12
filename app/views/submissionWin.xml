@@ -16,10 +16,10 @@
 			<Label id="hintLbl" class="margin-top width-80 fg-white text-center" />
 			<View id="optionView" feedback="none" class="margin-top auto hgroup no-hwrap">
 				<View id="thumbUp" class="option-view" onClick="didClickOption">
-					<ImageView image="/images/thumb_up.png" class="touch-disabled" />
+					<ImageView id="thumbUpImg" image="/images/thumb_up_grey.png" class="touch-disabled" />
 				</View>
 				<View id="thumbDown" class="padding-left option-view" onClick="didClickOption">
-					<ImageView image="/images/thumb_down.png" class="touch-disabled" />
+					<ImageView id="thumbDownImg" image="/images/thumb_down_grey.png" class="touch-disabled" />
 				</View>
 			</View>
 			<Button id="submitBtn" title="Submit Survey" class="margin-bottom primary-button" onClick="didClickSubmit" />

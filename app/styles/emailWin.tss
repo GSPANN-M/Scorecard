@@ -6,6 +6,7 @@
 	theme: "Theme.NoActionBar"
 },
 "#hintLbl":{
+	top: 40,
 	text: "Please enter your email address\nto get started.",
 	font:{
 		fontFamily: "Lato-Bold",

@@ -122,12 +122,12 @@ function didClickOption(e) {
 	}
 	var source = e.source;
 	if ($.thumbUp == source) {
-		$.thumbDown.backgroundColor = "#2F2F2F";
-		$.thumbUp.backgroundColor = "#D66360";
+		$.thumbUpImg.image = "/images/thumb_up_red.png";
+		$.thumbDownImg.image = "/images/thumb_down_grey.png";
 		$.optionView.feedback = "1";
 	} else {
-		$.thumbUp.backgroundColor = "#2F2F2F";
-		$.thumbDown.backgroundColor = "#D66360";
+		$.thumbDownImg.image = "/images/thumb_down_red.png";
+		$.thumbUpImg.image = "/images/thumb_up_grey.png";
 		$.optionView.feedback = "0";
 	}
 }
@@ -136,42 +136,45 @@ function didClickSubmit(e) {
 	if (isBusy) {
 		return;
 	}
-	isBusy = true;
-	$.loadingLbl.visible = true;
 	if ($.optionView.feedback == "none") {
 		dialog.show({
 			message : "Feeback can't be empty."
 		});
 		return;
 	}
-	var feedbacks = feedbackColl.findAll();
-	feedbacks = _.map(feedbacks, function(obj) {
-		delete obj._id;
+	isBusy = true;
+	$.loadingLbl.visible = true;
+	var feedbacks = feedbackColl.findAll(),
+	    tempFeedbacks = [];
+	_.map(feedbacks, function(obj) {
+		tempFeedbacks.push(_.omit(obj, ["_id"]));
 	});
 	var requestObj = {
 		cust_eml_id : db.getCollection(Alloy.CFG.collection.email).findAll()[0].email,
-		feedback : feedbacks,
+		feedback : tempFeedbacks,
 		other_feedback : $.txta.getValue(),
 		recommend_LAM : $.optionView.feedback
 	};
 	http.request({
-		url : "http://vcclamresearch.com:88/SurveyService.svc​/submitSurvey",
+		url : "http://vcclamresearch.com:88/SurveyService.svc/submitSurvey",
 		type : "POST",
+		format : "JSON",
 		data : requestObj,
-		success : function() {
+		success : function(result) {
 			dialog.show({
-				title : "Thank You",
-				message : "Your feedback has been sent.",
+				message : result.Message,
 				buttonNames : ["OK"],
 				cancelIndex : 0,
 				cancel : function() {
-					$.submissionWin.close();
+					if (result.Result == "Success") {
+						$.submissionWin.close();
+					}
 				}
 			});
 		},
 		failure : function() {
 			dialog.show({
-				message : "You seem to be offline, please check your internet connection"
+				message : "Something went wrong, please check your internet connectivity."
 			});
 		},
 		done : function() {

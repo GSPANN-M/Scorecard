@@ -17,11 +17,11 @@
 			<View class="padding-left icon-container" onClick="didCancelSurvey">
 				<ImageView image="/images/wrong_enabled.png" class="nav-icon touch-disabled" />
 			</View>
-			<View id="thumbsContainer" class="auto hgroup no-hwrap">
-				<ImageView id="thumbPositive0" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumbPositive1" image="/images/thumb_up_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumbNegative0" image="/images/thumb_down_grey.png" class="padding-right floating-bar-thumb" />
-				<ImageView id="thumbNegative1" image="/images/thumb_down_grey.png" class="floating-bar-thumb" />
+			<View id="thumbsContainer" class="auto-width hgroup no-hwrap" onClick="didClickThumbView">
+				<ImageView id="thumbPositive0" image="/images/thumb_up_grey.png" class="touch-disabled padding-left padding-right floating-bar-thumb" />
+				<ImageView id="thumbPositive1" image="/images/thumb_up_grey.png" class="touch-disabled padding-right floating-bar-thumb" />
+				<ImageView id="thumbNegative0" image="/images/thumb_down_grey.png" class="touch-disabled padding-right floating-bar-thumb" />
+				<ImageView id="thumbNegative1" image="/images/thumb_down_grey.png" class="touch-disabled padding-right floating-bar-thumb" />
 			</View>
 			<View class="padding-right icon-container" onClick="didClickSubmit">
 				<ImageView id="submitIcon" image="/images/right_disabled.png" class="nav-icon touch-disabled" />
@@ -38,10 +38,10 @@
 				</View>
 				<View id="optionView" class="padding-top auto hgroup no-hwrap">
 					<View id="thumbUp" class="option-view" onClick="didClickOption">
-						<ImageView image="/images/thumb_up.png" class="touch-disabled" />
+						<ImageView id="thumbUpImg" image="/images/thumb_up_grey.png" class="touch-disabled" />
 					</View>
 					<View id="thumbDown" class="padding-left option-view" onClick="didClickOption">
-						<ImageView image="/images/thumb_down.png" class="touch-disabled" />
+						<ImageView id="thumbDownImg" image="/images/thumb_down_grey.png" class="touch-disabled" />
 					</View>
 				</View>
 				<Widget id="txta" src="com.mykingdom.textarea" class="padding-top width-75 h2 bg-white" />

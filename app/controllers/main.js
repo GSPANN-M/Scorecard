@@ -133,7 +133,7 @@ var args = arguments[0] || {},
 		updateFilledTiles();
 		updateFlotingBar();
 	}
-	Alloy.Globals.submissionTileWidth = ((app.device.orientation == "landscape" ? app.device.height : app.device.width) - 100 ) / 4;
+	Alloy.Globals.submissionTileWidth = ((app.device.orientation == "landscape" ? app.device.height : app.device.width) - 200 ) / 4;
 	Alloy.Globals.submissionCircleWidth = Alloy.Globals.submissionTileWidth - 36;
 	Alloy.Globals.submissionCircleRadius = Alloy.Globals.submissionCircleWidth / 2;
 })();
@@ -236,8 +236,8 @@ function didClickTile(e) {
 			$.modalImg.image = tileView.imagePath;
 			$.modalLbl.text = tileView.tileText;
 			$.optionView.feedback = feedbackRecord.feedback || "none";
-			$.thumbUp.backgroundColor = feedbackRecord.feedback == "1" ? "#D66360" : "#2F2F2F";
-			$.thumbDown.backgroundColor = feedbackRecord.feedback == "0" ? "#D66360" : "#2F2F2F";
+			$.thumbUpImg.image = feedbackRecord.feedback == "1" ? "/images/thumb_up_red.png" : "/images/thumb_up_grey.png";
+			$.thumbDownImg.image = feedbackRecord.feedback == "0" ? "/images/thumb_down_red.png" : "/images/thumb_down_grey.png";
 			$.txta.setValue(feedbackRecord.comments || "");
 			toggleModal();
 		} else {
@@ -251,12 +251,12 @@ function didClickTile(e) {
 function didClickOption(e) {
 	var source = e.source;
 	if ($.thumbUp == source) {
-		$.thumbDown.backgroundColor = "#2F2F2F";
-		$.thumbUp.backgroundColor = "#D66360";
+		$.thumbUpImg.image = "/images/thumb_up_red.png";
+		$.thumbDownImg.image = "/images/thumb_down_grey.png";
 		$.optionView.feedback = "1";
 	} else {
-		$.thumbUp.backgroundColor = "#2F2F2F";
-		$.thumbDown.backgroundColor = "#D66360";
+		$.thumbDownImg.image = "/images/thumb_down_red.png";
+		$.thumbUpImg.image = "/images/thumb_up_grey.png";
 		$.optionView.feedback = "0";
 	}
 }
@@ -346,15 +346,16 @@ function closeModal(e) {
 
 function didRemoveFeedback(e) {
 	var cardId = e.source.getParent().card_id;
-	dialog.show({
-		title : "Are you sure?",
-		message : "This feedback will be deleted.",
-		buttonNames : ["Cancel", "OK"],
-		cancelIndex : 0,
-		success : function() {
-			updateCardWithNoFeedback(cardId);
-		}
-	});
+	updateCardWithNoFeedback(cardId);
+	/*dialog.show({
+	 title : "Are you sure?",
+	 message : "This feedback will be deleted.",
+	 buttonNames : ["Cancel", "OK"],
+	 cancelIndex : 0,
+	 success : function() {
+	 updateCardWithNoFeedback(cardId);
+	 }
+	 });*/
 }
 
 function updateCardWithNoFeedback(cardId, doUpdateFlotingBar) {
@@ -423,22 +424,41 @@ function updateFlotingBar() {
 
 function didClickSubmit(e) {
 	if ($.submitIcon.image == "/images/right_enabled.png") {
+		var submissionWin = Alloy.createController("submissionWin").getView();
+		submissionWin.addEventListener("close", function() {
+			if (!submissionWin.didBack) {
+				clearSurvey();
+			}
+		});
+		Alloy.Globals.openWindow(submissionWin);
+	}
+}
+
+function didClickThumbView(e) {
+	if (feedbackColl.getLength() != 0) {
 		var ctrl = Alloy.createController("readyForSubmit"),
 		    view = ctrl.getView();
 		ctrl.on("removeFeedback", function(e) {
+			if (feedbackColl.getLength() == 1) {
+				animation.fadeAndRemove(view, 500, $.main);
+			}
 			updateCardWithNoFeedback(e.card_id);
 		});
 		ctrl.getView("okBtn").addEventListener("click", function() {
-			var submissionWin = Alloy.createController("submissionWin").getView();
-			submissionWin.addEventListener("open", function() {
-				$.main.remove(view);
-			});
-			submissionWin.addEventListener("close", function() {
-				if (!submissionWin.didBack) {
-					clearSurvey();
-				}
-			});
-			Alloy.Globals.openWindow(submissionWin);
+			if ($.submitIcon.image == "/images/right_enabled.png") {
+				var submissionWin = Alloy.createController("submissionWin").getView();
+				submissionWin.addEventListener("open", function() {
+					animation.fadeAndRemove(view, 500, $.main);
+				});
+				submissionWin.addEventListener("close", function() {
+					if (!submissionWin.didBack) {
+						clearSurvey();
+					}
+				});
+				Alloy.Globals.openWindow(submissionWin);
+			} else {
+				animation.fadeAndRemove(view, 500, $.main);
+			}
 		});
 		$.main.add(view);
 		animation.fadeIn(view, 500);
