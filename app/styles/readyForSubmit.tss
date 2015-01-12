@@ -1,0 +1,31 @@
+"#readyForSubmit":{
+	opacity: 0
+},
+"#overlayView":{
+	backgroundColor: "#000000",
+	opacity: 0.85
+},
+".tile-view":{
+	width: Alloy.Globals.submissionTileWidth
+},
+".circle-view":{
+	width: Alloy.Globals.submissionCircleWidth,
+	height: Alloy.Globals.submissionCircleWidth,
+	borderRadius: Alloy.Globals.submissionCircleRadius,
+	backgroundColor: "#90FFFFFF"
+},
+".close-view":{
+	bottom: 10,
+	width: 40,
+	height: 40,
+	borderRadius: 20,
+	backgroundColor: "#FFFFFF"
+},
+"#okBtn":{
+	top: 60,
+	title: "OK"
+},
+"#cancelBtn":{
+	top: 20,
+	title: "Cancel"
+}

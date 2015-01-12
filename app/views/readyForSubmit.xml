@@ -1,0 +1,10 @@
+<Alloy>
+	<View>
+		<View id="overlayView" />
+		<ScrollView class="vgroup">
+			<View id="tileContainer" class="template auto hgroup no-hwrap" />
+			<Button id="okBtn" class="primary-button" />
+			<Button id="cancelBtn" class="margin-bottom primary-button" onClick="didClickCancel" />
+		</ScrollView>
+	</View>
+</Alloy>

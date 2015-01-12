@@ -423,13 +423,25 @@ function updateFlotingBar() {
 
 function didClickSubmit(e) {
 	if ($.submitIcon.image == "/images/right_enabled.png") {
-		var submissionWin = Alloy.createController("submissionWin").getView();
-		submissionWin.addEventListener("close", function() {
-			if (!submissionWin.didBack) {
-				clearSurvey();
-			}
+		var ctrl = Alloy.createController("readyForSubmit"),
+		    view = ctrl.getView();
+		ctrl.on("removeFeedback", function(e) {
+			updateCardWithNoFeedback(e.card_id);
 		});
-		Alloy.Globals.openWindow(submissionWin);
+		ctrl.getView("okBtn").addEventListener("click", function() {
+			var submissionWin = Alloy.createController("submissionWin").getView();
+			submissionWin.addEventListener("open", function() {
+				$.main.remove(view);
+			});
+			submissionWin.addEventListener("close", function() {
+				if (!submissionWin.didBack) {
+					clearSurvey();
+				}
+			});
+			Alloy.Globals.openWindow(submissionWin);
+		});
+		$.main.add(view);
+		animation.fadeIn(view, 500);
 	}
 }
 
