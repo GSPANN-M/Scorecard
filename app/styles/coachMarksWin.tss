@@ -1,10 +1,8 @@
 "#coachMarksWin":{
-	modal: true,
-	orientationModes : [
-    	Titanium.UI.PORTRAIT,
-    	Titanium.UI.UPSIDE_PORTRAIT
-    ],
-	backgroundImage: "/images/coach_marks.png"
+	modal: true
+},
+"#img":{
+	preventDefaultImage: true
 },
 "#coachMarksWin[platform=android]":{
 	theme: "Theme.NoActionBar"
