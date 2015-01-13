@@ -22,7 +22,9 @@
 					<ImageView id="thumbDownImg" image="/images/thumb_down_grey.png" class="touch-disabled" />
 				</View>
 			</View>
-			<Button id="submitBtn" title="Submit Survey" class="margin-bottom primary-button" onClick="didClickSubmit" />
+			<View id="submitBtn" class="margin-bottom button" onClick="didClickSubmit">
+				<Label text="Submit Survey" class="button-lbl" />
+			</View>
 		</ScrollView>
 	</Window>
 </Alloy>

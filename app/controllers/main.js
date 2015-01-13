@@ -153,7 +153,7 @@ function didOpen() {
 function checkForEmail(e) {
 	var email = getEmail();
 	if (!email) {
-		Alloy.createController("emailWin").getView().open();
+		Alloy.createController("emailView").init($.main);
 		return false;
 	}
 	return email;

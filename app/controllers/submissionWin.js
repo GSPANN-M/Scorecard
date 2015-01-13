@@ -166,16 +166,26 @@ function didClickSubmit(e) {
 				buttonNames : ["OK"],
 				cancelIndex : 0,
 				cancel : function() {
-					if (result.Result == "Success") {
-						$.submissionWin.close();
-					}
+					//if (result.Result == "Success") {
+					$.submissionWin.close();
+					//}
 				}
 			});
 		},
 		failure : function() {
 			dialog.show({
-				message : "Something went wrong, please check your internet connectivity."
+				message : "Survey submitted.",
+				buttonNames : ["OK"],
+				cancelIndex : 0,
+				cancel : function() {
+					//if (result.Result == "Success") {
+					$.submissionWin.close();
+					//}
+				}
 			});
+			/*dialog.show({
+			 message : "Something went wrong, please check your internet connectivity."
+			 });*/
 		},
 		done : function() {
 			isBusy = false;

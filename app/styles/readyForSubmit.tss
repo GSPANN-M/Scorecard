@@ -22,10 +22,5 @@
 	backgroundColor: "#FFFFFF"
 },
 "#okBtn":{
-	top: 60,
-	title: "OK"
-},
-"#cancelBtn":{
-	top: 20,
-	title: "Cancel"
+	top: 60
 }

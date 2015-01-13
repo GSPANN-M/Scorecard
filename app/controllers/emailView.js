@@ -1,4 +1,5 @@
 var args = arguments[0] || {},
+    animation = require("alloy/animation"),
     http = require("http"),
     db = require("db"),
     http = require("http"),
@@ -49,5 +50,16 @@ function storeEmail(value) {
 		email : value
 	});
 	db.commit(emailColl);
-	$.emailWin.close();
+	close();
 }
+
+function init(parent) {
+	parent.add($.emailView);
+	animation.fadeIn($.emailView, 500);
+}
+
+function close() {
+	animation.fadeAndRemove($.emailView, 500, $.emailView.getParent());
+}
+
+exports.init = init;

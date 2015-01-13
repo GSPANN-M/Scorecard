@@ -3,8 +3,12 @@
 		<View id="overlayView" />
 		<ScrollView class="vgroup">
 			<View id="tileContainer" class="template auto hgroup no-hwrap" />
-			<Button id="okBtn" class="primary-button" />
-			<Button id="cancelBtn" class="margin-bottom primary-button" onClick="didClickCancel" />
+			<View id="okBtn" class="button">
+				<Label text="OK" class="button-lbl" />
+			</View>
+			<View id="cancelBtn" class="margin-bottom button" onClick="didClickCancel">
+				<Label text="Cancel" class="button-lbl" />
+			</View>
 		</ScrollView>
 	</View>
 </Alloy>

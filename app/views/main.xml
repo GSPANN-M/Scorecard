@@ -45,8 +45,12 @@
 					</View>
 				</View>
 				<Widget id="txta" src="com.mykingdom.textarea" class="padding-top width-75 h2 bg-white" />
-				<Button title="OK" class="primary-button" onClick="didClickOK" />
-				<Button title="Cancel" class="padding-bottom primary-button" onClick="closeModal" />
+				<View id="okBtn" class="button" onClick="didClickOK">
+					<Label text="OK" class="button-lbl" />
+				</View>
+				<View id="cancelBtn" class="padding-bottom button" onClick="closeModal">
+					<Label text="Cancel" class="button-lbl" />
+				</View>
 			</ScrollView>
 		</View>
 	</Window>

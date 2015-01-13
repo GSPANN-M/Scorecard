@@ -100,4 +100,10 @@
 	borderRadius: 6,
 	suppressReturn: true,
 	returnKeyType: Ti.UI.RETURNKEY_DONE
+},
+"#okBtn":{
+	top: 10
+},
+"#cancelBtn":{
+	top: 10
 }
