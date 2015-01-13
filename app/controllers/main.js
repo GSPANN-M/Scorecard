@@ -444,7 +444,7 @@ function didClickThumbView(e) {
 			}
 			updateCardWithNoFeedback(e.card_id);
 		});
-		ctrl.getView("okBtn").addEventListener("click", function() {
+		/*ctrl.getView("okBtn").addEventListener("click", function() {
 			if ($.submitIcon.image == "/images/right_enabled.png") {
 				var submissionWin = Alloy.createController("submissionWin").getView();
 				submissionWin.addEventListener("open", function() {
@@ -459,7 +459,7 @@ function didClickThumbView(e) {
 			} else {
 				animation.fadeAndRemove(view, 500, $.main);
 			}
-		});
+		});*/
 		$.main.add(view);
 		animation.fadeIn(view, 500);
 	}
