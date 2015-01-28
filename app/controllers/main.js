@@ -1,8 +1,10 @@
 var args = arguments[0] || {},
+    http = require("http"),
     app = require("core"),
     animation = require("alloy/animation"),
     dialog = require("dialog"),
     db = require("db"),
+    lastUrl = "",
     feedbackColl = db.getCollection(Alloy.CFG.collection.feedback),
     scrollViews = {
 	columnOne : {
@@ -81,7 +83,8 @@ var args = arguments[0] || {},
     tilePWidth,
     tilePHeight,
     tileLWidth,
-    tileLHeight;
+    tileLHeight,
+    submissionWin;
 
 (function() {
 	app.init();
@@ -129,10 +132,6 @@ var args = arguments[0] || {},
 			$[i].add($[item.card_id]);
 		}
 	}
-	if (feedbackColl.getLength()) {
-		updateFilledTiles();
-		updateFlotingBar();
-	}
 	Alloy.Globals.submissionTileWidth = ((app.device.orientation == "landscape" ? app.device.height : app.device.width) - 200 ) / 4;
 	Alloy.Globals.submissionCircleWidth = Alloy.Globals.submissionTileWidth - 36;
 	Alloy.Globals.submissionCircleRadius = Alloy.Globals.submissionCircleWidth / 2;
@@ -146,8 +145,111 @@ function didOpen() {
 		coachMarksWin.addEventListener("close", checkForEmail);
 		coachMarksWin.open();
 	} else {
-		checkForEmail();
+		if (OS_IOS) {
+			Ti.App.addEventListener("resumed", didResume);
+		} else {
+			$.index.activity.addEventListener("newintent", didResume);
+		}
+		checkUrl();
 	}
+}
+
+function didResume(e) {
+	if ($.main.children.length > 5) {
+		animation.fadeAndRemove($.main.children[5], 500, $.main);
+	}
+	if (submissionWin) {
+		submissionWin.didBack = true;
+		Alloy.Globals.closeWindow(submissionWin);
+	}
+	if ($.modalView.opacity != 0) {
+		animation.fadeOut($.modalView, 500, function() {
+			$.modalView.applyProperties({
+				opacity : 0,
+				visible : false
+			});
+		});
+	}
+	checkUrl();
+}
+
+function checkUrl() {
+	var url = "",
+	    email,
+	    regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	if (OS_IOS) {
+		url = Ti.App.getArguments().url;
+	} else {
+		url = Ti.Android.currentActivity.intent.data;
+	}
+	if (url == lastUrl) {
+		url = "";
+	} else {
+		lastUrl = url;
+	}
+	email = getParams(url || "").email || "";
+	if (email != "" && regexp.test(email) == true) {
+		animation.fadeIn($.loadingView, 500);
+		http.request({
+			url : "http://vcclamresearch.com:88/SurveyService.svc/validate/".concat(email),
+			format : "JSON",
+			success : function(result) {
+				if (result.Result == "Success") {
+
+					var emailColl = db.getCollection(Alloy.CFG.collection.email);
+					emailColl.save({
+						email : email
+					});
+					db.commit(emailColl);
+
+					var cards = feedbackColl.findAll();
+					for (var i in cards) {
+						updateCardWithNoFeedback(cards[i].card_id, false);
+					}
+					feedbackColl.clear();
+					db.commit(feedbackColl);
+
+				} else {
+					dialog.show({
+						message : result.Message
+					});
+				}
+				initApp();
+			},
+			failure : function() {
+				dialog.show({
+					message : "Something went wrong, please check your internet connectivity."
+				});
+				initApp();
+			}
+		});
+	} else {
+		initApp();
+	}
+}
+
+function initApp() {
+	animation.fadeOut($.loadingView, 500);
+	if (checkForEmail()) {
+		if (feedbackColl.getLength()) {
+			updateFilledTiles();
+		}
+		updateFlotingBar();
+	}
+}
+
+function getParams(url) {
+	var query = url.substring(url.indexOf("?") + 1),
+	    vars = query.split("&"),
+	    params = {};
+	if (!vars.length) {
+		vars = [query];
+	}
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		params[pair[0]] = pair[1];
+	}
+	return params;
 }
 
 function checkForEmail(e) {
@@ -365,12 +467,14 @@ function updateCardWithNoFeedback(cardId, doUpdateFlotingBar) {
 	db.commit(feedbackColl);
 	var selectedCard = $[cardId],
 	    children = selectedCard.children;
-	selectedCard.children[1].children[0].color = "#160C4C";
-	selectedCard.children[1].remove(selectedCard.children[1].children[1]);
-	selectedCard.children[0].image = selectedCard.imagePath;
-	selectedCard.remove(children[2]);
-	if (doUpdateFlotingBar !== false) {
-		updateFlotingBar();
+	if (children.length > 1) {
+		selectedCard.children[1].children[0].color = "#160C4C";
+		selectedCard.children[1].remove(selectedCard.children[1].children[1]);
+		selectedCard.children[0].image = selectedCard.imagePath;
+		selectedCard.remove(children[2]);
+		if (doUpdateFlotingBar !== false) {
+			updateFlotingBar();
+		}
 	}
 }
 
@@ -395,6 +499,7 @@ function clearSurvey() {
 	feedbackColl.clear();
 	db.commit(feedbackColl);
 	updateFlotingBar();
+	lastUrl = "";
 	checkForEmail();
 }
 
@@ -424,11 +529,12 @@ function updateFlotingBar() {
 
 function didClickSubmit(e) {
 	if ($.submitIcon.image == "/images/right_enabled.png") {
-		var submissionWin = Alloy.createController("submissionWin").getView();
+		submissionWin = Alloy.createController("submissionWin").getView();
 		submissionWin.addEventListener("close", function() {
 			if (!submissionWin.didBack) {
 				clearSurvey();
 			}
+			submissionWin = false;
 		});
 		Alloy.Globals.openWindow(submissionWin);
 	}
@@ -445,21 +551,22 @@ function didClickThumbView(e) {
 			updateCardWithNoFeedback(e.card_id);
 		});
 		/*ctrl.getView("okBtn").addEventListener("click", function() {
-			if ($.submitIcon.image == "/images/right_enabled.png") {
-				var submissionWin = Alloy.createController("submissionWin").getView();
-				submissionWin.addEventListener("open", function() {
-					animation.fadeAndRemove(view, 500, $.main);
-				});
-				submissionWin.addEventListener("close", function() {
-					if (!submissionWin.didBack) {
-						clearSurvey();
-					}
-				});
-				Alloy.Globals.openWindow(submissionWin);
-			} else {
-				animation.fadeAndRemove(view, 500, $.main);
-			}
-		});*/
+		 if ($.submitIcon.image == "/images/right_enabled.png") {
+		 submissionWin = Alloy.createController("submissionWin").getView();
+		 submissionWin.addEventListener("open", function() {
+		 animation.fadeAndRemove(view, 500, $.main);
+		 });
+		 submissionWin.addEventListener("close", function() {
+		 if (!submissionWin.didBack) {
+		 clearSurvey();
+		 }
+		 submissionWin = false;
+		 });
+		 Alloy.Globals.openWindow(submissionWin);
+		 } else {
+		 animation.fadeAndRemove(view, 500, $.main);
+		 }
+		 });*/
 		$.main.add(view);
 		animation.fadeIn(view, 500);
 	}

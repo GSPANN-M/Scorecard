@@ -53,5 +53,9 @@
 				</View>
 			</ScrollView>
 		</View>
+		<View id="loadingView">
+			<View class="bg-semitransparent" />
+			<Label id="loadingLbl" class="fg-white text-center" />
+		</View>
 	</Window>
 </Alloy>

@@ -159,16 +159,20 @@ function didClickSubmit(e) {
 		url : "http://vcclamresearch.com:88/SurveyService.svc/submitSurvey",
 		type : "POST",
 		format : "JSON",
-		data : requestObj,
+		headers : [{
+			key : "Content-Type",
+			value : "application/json"
+		}],
+		data : JSON.stringify(requestObj),
 		success : function(result) {
 			dialog.show({
 				message : result.Message,
 				buttonNames : ["OK"],
 				cancelIndex : 0,
 				cancel : function() {
-					//if (result.Result == "Success") {
-					$.submissionWin.close();
-					//}
+					if (result.Result == "Success") {
+						$.submissionWin.close();
+					}
 				}
 			});
 		},
