@@ -167,6 +167,7 @@
 	layout: "vertical"
 },
 ".logo":{
+	width: 85,
 	height: 30,
 	image: "/images/logo.png"
 },

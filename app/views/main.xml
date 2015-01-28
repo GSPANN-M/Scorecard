@@ -2,7 +2,7 @@
 	<Window onOpen="didOpen" onClose="didClose" onAndroidback="didAndroidback">
 		<View id="navBarView" class="nav-bar bg-red">
 			<View class="nav-bar-title-view">
-				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
+				<Label id="titleLbl" class="fill-height h1 fg-white text-center" />
 			</View>
 			<ImageView class="margin-right logo" />
 		</View>
@@ -53,7 +53,7 @@
 				</View>
 			</ScrollView>
 		</View>
-		<View id="loadingView">
+		<View id="loadingView" class="hidden">
 			<View class="bg-semitransparent" />
 			<Label id="loadingLbl" class="fg-white text-center" />
 		</View>

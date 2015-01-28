@@ -148,7 +148,7 @@ function didOpen() {
 		if (OS_IOS) {
 			Ti.App.addEventListener("resumed", didResume);
 		} else {
-			$.index.activity.addEventListener("newintent", didResume);
+			$.main.activity.addEventListener("newintent", didResume);
 		}
 		checkUrl();
 	}
@@ -189,7 +189,12 @@ function checkUrl() {
 	}
 	email = getParams(url || "").email || "";
 	if (email != "" && regexp.test(email) == true) {
-		animation.fadeIn($.loadingView, 500);
+		$.loadingView.visible = true;
+		animation.fadeIn($.loadingView, 500, function() {
+			$.loadingView.applyProperties({
+				opacity : 1
+			});
+		});
 		http.request({
 			url : "http://vcclamresearch.com:88/SurveyService.svc/validate/".concat(email),
 			format : "JSON",
@@ -229,7 +234,12 @@ function checkUrl() {
 }
 
 function initApp() {
-	animation.fadeOut($.loadingView, 500);
+	animation.fadeOut($.loadingView, 500, function(e) {
+		$.loadingView.applyProperties({
+			opacity : 1,
+			visible : false
+		});
+	});
 	if (checkForEmail()) {
 		if (feedbackColl.getLength()) {
 			updateFilledTiles();

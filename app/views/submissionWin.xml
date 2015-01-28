@@ -5,7 +5,7 @@
 				<ImageView image="/images/back.png" class="margin-left nav-icon touch-disabled" />
 			</View>
 			<View class="nav-bar-title-view">
-				<Label id="titleLbl" class="padding-top h1 fg-white text-center" />
+				<Label id="titleLbl" class="fill-height h1 fg-white text-center" />
 			</View>
 			<ImageView class="margin-right logo" />
 		</View>
