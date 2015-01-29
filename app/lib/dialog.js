@@ -20,12 +20,12 @@
 exports.show = function(_params) {
 	var dict = {
 		title : _params.title || Ti.App.name,
-		message : _params.message || ""
+		message : OS_IOS ? "\n".concat(_params.message) : _params.message || ""
 	};
 	if (_.has(_params, "buttonNames")) {
 		_.extend(dict, {
 			buttonNames : _params.buttonNames,
-			cancel : _params.cancelIndex || -1
+			cancel : _params.cancelIndex !== "undefined" ? _params.cancelIndex : -1
 		});
 	} else {
 		_.extend(dict, {

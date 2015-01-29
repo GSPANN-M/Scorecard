@@ -4,21 +4,34 @@
 "#main[platform=android]":{
 	exitOnClose: true
 },
-"#tileContainer":{
-	left: "2%",
-	right: "2%"
+".column":{
+	width: "33.3%"
+},
+".icon-container":{
+	top: 10,
+	bottom: 10,
+	width: 60,
+	backgroundColor: "#50FFFFFF"
+},
+".nav-icon":{
+	width: 50
 },
 "#titleLbl":{
 	text: "Customer Survey"
 },
-".from-left":{
-	left: "2%"
+"#tileContainer":{
+	left: "2%",
+	right: "2%"
 },
 ".tile-from-top":{
 	top: 15
 },
 ".tile-from-bottom":{
 	bottom: 15
+},
+".tile-img":{
+	left: 10,
+	right: 10
 },
 "#columnOne":{
 	identifier: "columnOne"
@@ -29,122 +42,68 @@
 "#columnThree":{
 	identifier: "columnThree"
 },
-"#industryLeadershipView":{
-	index: {
-		column: 1,
-		row: 1
-	},
-	action: "industry_leadership"
+"#floatingBarView":{
+	height: 80,
+	backgroundColor: "#90FFFFFF"
 },
-"#innovativeProductsView":{
-	index: {
-		column: 1,
-		row: 2
-	},
-	action: "innovative_products"
+"#thumbsContainer":{
+	height: 60,
+	backgroundColor: "#50FFFFFF"
 },
-"#timelySolutionsView":{
-	index: {
-		column: 1,
-		row: 3
-	},
-	action: "timely_solutions"
+".zindex-0":{
+	zIndex: 0
 },
-"#partneringForMutualBenefitView":{
-	index: {
-		column: 1,
-		row: 4
-	},
-	action: "partnering_for_mutual_benefit"
+".zindex-1":{
+	zIndex: 1
 },
-"#toolUpgradesView":{
-	index: {
-		column: 1,
-		row: 5
-	},
-	action: "tool_upgrades"
+".zindex-2":{
+	zIndex: 2
 },
-"#equipmentPerformanceView":{
-	index: {
-		column: 2,
-		row: 1
-	},
-	action: "equipment_performance"
+".bg-semitransparent":{
+	backgroundColor: "#000000",
+	opacity: 0.85
 },
-"#toolQualityView":{
-	index: {
-		column: 2,
-		row: 2
-	},
-	action: "tool_quality"
+".close-view":{
+	bottom: 10,
+	width: 40,
+	height: 40,
+	borderRadius: 20,
+	backgroundColor: "#FFFFFF"
 },
-"#sparesPerformanceView":{
-	index: {
-		column: 2,
-		row: 3
-	},
-	action: "spares_performance"
+"#modalTileView":{
+	width: 180
 },
-"#serviceContractsView":{
-	index: {
-		column: 2,
-		row: 4
-	},
-	action: "service_contracts"
+"#modalTileView[platform=ios]":{
+	top: 90
 },
-"#technicalSupportView":{
-	index: {
-		column: 2,
-		row: 5
-	},
-	action: "technical_support"
+"#modalTileView[platform=android]":{
+	top: 70
 },
-"#meetingCommitmentsView":{
-	index: {
-		column: 3,
-		row: 1
-	},
-	action: "meeting_commitments"
-},
-"#easeOfDoingBusinessView":{
-	index: {
-		column: 3,
-		row: 2
-	},
-	action: "ease_of_doing_business"
-},
-"#fastResponseToEscalationsView":{
-	index: {
-		column: 3,
-		row: 3
-	},
-	action: "fast_response_to_escalations"
-},
-"#toolInstallationView":{
-	index: {
-		column: 3,
-		row: 4
-	},
-	action: "tool_installation"
-},
-"#onTimeDeliveryView":{
-	index: {
-		column: 3,
-		row: 5
-	},
-	action: "on_time_delivery"
-},
-"#modalView":{
-	backgroundColor: "#90000000"
+"#modalCircleView":{
+	width: 144,
+	height: 144,
+	borderRadius: 72,
+	backgroundColor: "#90FFFFFF"
 },
 ".option-view":{
-	width: 100,
-	height: 100,
-	borderRadius: 50,
+	width: 70,
+	height: 70,
+	borderRadius: 35,
 	backgroundColor: "#2F2F2F"
+},
+".floating-bar-thumb":{
+	width: 50
 },
 "#txta":{
 	hintText: "Additional feedback (optional)",
-	height: 180,
-	borderRadius: 6
+	height: 140,
+	borderRadius: 6,
+	suppressReturn: true,
+	returnKeyType: Ti.UI.RETURNKEY_DONE
+},
+"#okBtn":{
+	top: 10
+},
+"#cancelBtn":{
+	top: 10
 }

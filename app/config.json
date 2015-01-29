@@ -1,16 +1,21 @@
 {
-	"global": {},
+	"global": {
+		"collection": {
+			"email": "contact",
+			"feedback": "feedback"
+		}
+	},
 	"env:development": {},
 	"env:test": {},
 	"env:production": {},
 	"os:android": {
 		"navBarPadding": 0,
-		"navBarHeight": 117
+		"navBarHeight": 67
 	},
 	"os:blackberry": {},
 	"os:ios": {
 		"navBarPadding": 20,
-		"navBarHeight": 137
+		"navBarHeight": 87
 	},
 	"os:mobileweb": {},
 	"dependencies": {
