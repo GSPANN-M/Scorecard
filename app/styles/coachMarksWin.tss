@@ -1,0 +1,9 @@
+"#coachMarksWin":{
+	modal: true
+},
+"#img":{
+	preventDefaultImage: true
+},
+"#coachMarksWin[platform=android]":{
+	theme: "Theme.NoActionBar"
+}
