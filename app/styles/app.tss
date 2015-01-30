@@ -1,8 +1,6 @@
 "Window": {
+	backgroundImage: "/images/tile_background.png",
 	navBarHidden: true
-},
-"Window[platform=android]":{
-	windowSoftInputMode: Titanium.UI.Android.SOFT_INPUT_STATE_HIDDEN | Titanium.UI.Android.SOFT_INPUT_ADJUST_PAN
 },
 ".top":{
 	top: 0
@@ -17,28 +15,28 @@
 	right: 0
 },
 ".padding-top":{
-	top: 10
+	top: 5
 },
 ".padding-bottom":{
-	bottom: 10
+	bottom: 5
 },
 ".padding-left":{
-	left: 10
+	left: 5
 },
 ".padding-right":{
-	right: 10
+	right: 5
 },
 ".margin-top":{
-	top: 20
+	top: 10
 },
 ".margin-bottom":{
-	bottom: 20
+	bottom: 10
 },
 ".margin-left":{
-	left: 20
+	left: 10
 },
 ".margin-right":{
-	right: 20
+	right: 10
 },
 ".vgroup":{
 	layout: "vertical"
@@ -72,17 +70,8 @@
 ".width-90":{
 	width: "90%"
 },
-".width-85":{
-	width: "85%"
-},
-".width-80":{
-	width: "80%"
-},
-".width-75":{
-	width: "75%"
-},
-".width-50":{
-	width: "50%"
+".width-32":{
+	width: "32%"
 },
 ".auto-height":{
 	height: Ti.UI.SIZE
@@ -96,35 +85,14 @@
 ".touch-disabled":{
 	touchEnabled: false
 },
-".hidden":{
-	visible: false
-},
-".hidden-opacity":{
-	opacity: 0
-},
 ".h1":{
 	font:{
 		fontFamily: "Lato-Regular",
-		fontSize: 28
-	}
-},
-".h2":{
-	font:{
-		fontFamily: "Lato-Regular",
-		fontSize: 20
-	}
-},
-".h3":{
-	font:{
-		fontFamily: "Lato-Regular",
-		fontSize: 14
+		fontSize: 24
 	}
 },
 ".bg-white":{
 	backgroundColor: "#FFFFFF"
-},
-".bg-red":{
-	backgroundColor: "#D66360"
 },
 ".bg-default":{
 	backgroundImage: "/images/tile_background.png"
@@ -132,43 +100,13 @@
 ".fg-white":{
 	color: "#FFFFFF"
 },
-".fg-naviblue":{
-	color: "#160C4C"
-},
 ".text-center":{
 	textAlign: "center"
 },
-".button":{
-	top: 20,
-	width: "50%",
-	height: 55,
-	backgroundColor: "#D66360",
-	borderRadius: 6,
-	opacity: 0.80
-},
-".button-lbl":{
-	width: "95%",
-	textAlign: "center",
-	color: "#FFFFFF",
-	font: {
-		fontFamily: "Lato-Bold",
-		fontSize: 20
-	},
-	touchEnabled: false
-},
 ".nav-bar":{
 	top: 0,
-	height: Alloy.CFG.navBarHeight
-},
-".nav-bar-title-view":{
-	top: Alloy.CFG.navBarPadding,
-	left: 140,
-	right: 140,
-	layout: "vertical"
-},
-".logo":{
-	height: 30,
-	image: "/images/logo.png"
+	height: Alloy.CFG.navBarHeight,
+	backgroundColor: "#D66360"
 },
 ".template":{
 	top: Alloy.CFG.navBarHeight

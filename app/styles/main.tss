@@ -1,37 +1,20 @@
-"#main":{
-	backgroundImage: "/images/tile_background.png"
-},
 "#main[platform=android]":{
 	exitOnClose: true
-},
-".column":{
-	width: "33.3%"
-},
-".icon-container":{
-	top: 10,
-	bottom: 10,
-	width: 60,
-	backgroundColor: "#50FFFFFF"
-},
-".nav-icon":{
-	width: 50
-},
-"#titleLbl":{
-	text: "Customer Survey"
 },
 "#tileContainer":{
 	left: "2%",
 	right: "2%"
 },
-".tile-from-top":{
-	top: 15
+"#titleLbl":{
+	text: "Customer Survey"
 },
-".tile-from-bottom":{
-	bottom: 15
+".from-left":{
+	left: "2%"
 },
-".tile-img":{
-	left: 10,
-	right: 10
+"#modalView":{
+	width: 1,
+	height: 1,
+	visible: false
 },
 "#columnOne":{
 	identifier: "columnOne"
@@ -42,68 +25,108 @@
 "#columnThree":{
 	identifier: "columnThree"
 },
-"#floatingBarView":{
-	height: 80,
-	backgroundColor: "#90FFFFFF"
+"#industryLeadershipView":{
+	index: {
+		column: 1,
+		row: 1
+	},
+	action: "industry_leadership"
 },
-"#thumbsContainer":{
-	height: 60,
-	backgroundColor: "#50FFFFFF"
+"#innovativeProductsView":{
+	index: {
+		column: 1,
+		row: 2
+	},
+	action: "innovative_products"
 },
-".zindex-0":{
-	zIndex: 0
+"#timelySolutionsView":{
+	index: {
+		column: 1,
+		row: 3
+	},
+	action: "timely_solutions"
 },
-".zindex-1":{
-	zIndex: 1
+"#partneringForMutualBenefitView":{
+	index: {
+		column: 1,
+		row: 4
+	},
+	action: "partnering_for_mutual_benefit"
 },
-".zindex-2":{
-	zIndex: 2
+"#toolUpgradesView":{
+	index: {
+		column: 1,
+		row: 5
+	},
+	action: "tool_upgrades"
 },
-".bg-semitransparent":{
-	backgroundColor: "#000000",
-	opacity: 0.85
+"#equipmentPerformanceView":{
+	index: {
+		column: 2,
+		row: 1
+	},
+	action: "equipment_performance"
 },
-".close-view":{
-	bottom: 10,
-	width: 40,
-	height: 40,
-	borderRadius: 20,
-	backgroundColor: "#FFFFFF"
+"#toolQualityView":{
+	index: {
+		column: 2,
+		row: 2
+	},
+	action: "tool_quality"
 },
-"#modalTileView":{
-	width: 180
+"#sparesPerformanceView":{
+	index: {
+		column: 2,
+		row: 3
+	},
+	action: "spares_performance"
 },
-"#modalTileView[platform=ios]":{
-	top: 90
+"#serviceContractsView":{
+	index: {
+		column: 2,
+		row: 4
+	},
+	action: "service_contracts"
 },
-"#modalTileView[platform=android]":{
-	top: 70
+"#technicalSupportView":{
+	index: {
+		column: 2,
+		row: 5
+	},
+	action: "technical_support"
 },
-"#modalCircleView":{
-	width: 144,
-	height: 144,
-	borderRadius: 72,
-	backgroundColor: "#90FFFFFF"
+"#meetingCommitmentsView":{
+	index: {
+		column: 3,
+		row: 1
+	},
+	action: "meeting_commitments"
 },
-".option-view":{
-	width: 70,
-	height: 70,
-	borderRadius: 35,
-	backgroundColor: "#2F2F2F"
+"#easeOfDoingBusinessView":{
+	index: {
+		column: 3,
+		row: 2
+	},
+	action: "ease_of_doing_business"
 },
-".floating-bar-thumb":{
-	width: 50
+"#fastResponseToEscalationsView":{
+	index: {
+		column: 3,
+		row: 3
+	},
+	action: "fast_response_to_escalations"
 },
-"#txta":{
-	hintText: "Additional feedback (optional)",
-	height: 140,
-	borderRadius: 6,
-	suppressReturn: true,
-	returnKeyType: Ti.UI.RETURNKEY_DONE
+"#toolInstallationView":{
+	index: {
+		column: 3,
+		row: 4
+	},
+	action: "tool_installation"
 },
-"#okBtn":{
-	top: 10
-},
-"#cancelBtn":{
-	top: 10
+"#onTimeDeliveryView":{
+	index: {
+		column: 3,
+		row: 5
+	},
+	action: "on_time_delivery"
 }

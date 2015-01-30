@@ -1,6 +1,0 @@
-<Alloy>
-	<View>
-		<TextArea id="txta" onFocus="didFocus" onBlur="didBlur" onChange="didChange" onReturn="didReturn" />
-		<Label id="hintLbl" onClick="focus" />
-	</View>
-</Alloy>
