@@ -1,5 +1,0 @@
-<Alloy>
-	<Window onOpen="didOpen" onClose="didClose" onClick="didClick">
-		<ImageView id="img" class="fill" />
-	</Window>
-</Alloy>

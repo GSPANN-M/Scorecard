@@ -1,24 +1,15 @@
 {
-	"global": {
-		"collection": {
-			"email": "contact",
-			"feedback": "feedback"
-		}
-	},
+	"global": {},
 	"env:development": {},
 	"env:test": {},
 	"env:production": {},
 	"os:android": {
-		"navBarPadding": 0,
-		"navBarHeight": 67
+		"navBarHeight": 48
 	},
 	"os:blackberry": {},
 	"os:ios": {
-		"navBarPadding": 20,
-		"navBarHeight": 87
+		"navBarHeight": 68
 	},
 	"os:mobileweb": {},
-	"dependencies": {
-		"com.mykingdom.textarea": "1.0"
-	}
+	"dependencies": {}
 }
