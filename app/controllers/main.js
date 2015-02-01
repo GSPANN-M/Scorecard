@@ -199,26 +199,28 @@ function checkUrl() {
 			url : "http://vcclamresearch.com:88/SurveyService.svc/validate/".concat(email),
 			format : "JSON",
 			success : function(result) {
-				if (result.Result == "Success") {
 
-					var emailColl = db.getCollection(Alloy.CFG.collection.email);
+				var emailColl = db.getCollection(Alloy.CFG.collection.email);
+				emailColl.clear();
+
+				var cards = feedbackColl.findAll();
+				for (var i in cards) {
+					updateCardWithNoFeedback(cards[i].card_id, false);
+				}
+				feedbackColl.clear();
+				db.commit(feedbackColl);
+
+				if (result.Result == "Success") {
 					emailColl.save({
 						email : email
 					});
-					db.commit(emailColl);
-
-					var cards = feedbackColl.findAll();
-					for (var i in cards) {
-						updateCardWithNoFeedback(cards[i].card_id, false);
-					}
-					feedbackColl.clear();
-					db.commit(feedbackColl);
-
 				} else {
 					dialog.show({
 						message : result.Message
 					});
 				}
+
+				db.commit(emailColl);
 				initApp();
 			},
 			failure : function() {
@@ -244,8 +246,8 @@ function initApp() {
 		if (feedbackColl.getLength()) {
 			updateFilledTiles();
 		}
-		updateFlotingBar();
 	}
+	updateFlotingBar();
 }
 
 function getParams(url) {
@@ -453,6 +455,7 @@ function updateFilledTiles(cardId) {
 }
 
 function closeModal(e) {
+	$.txta.blur();
 	toggleModal();
 }
 
