@@ -138,6 +138,11 @@ var args = arguments[0] || {},
 })();
 
 function didOpen() {
+	if (OS_IOS) {
+		Ti.App.addEventListener("resumed", didResume);
+	} else {
+		$.main.activity.addEventListener("newintent", didResume);
+	}
 	Ti.App.addEventListener("orientationChange", didOrientationChange);
 	if (Ti.App.Properties.getBool("firstLaunch", false) === false) {
 		Ti.App.Properties.setBool("firstLaunch", true);
@@ -145,11 +150,6 @@ function didOpen() {
 		coachMarksWin.addEventListener("close", checkForEmail);
 		coachMarksWin.open();
 	} else {
-		if (OS_IOS) {
-			Ti.App.addEventListener("resumed", didResume);
-		} else {
-			$.main.activity.addEventListener("newintent", didResume);
-		}
 		checkUrl();
 	}
 }
@@ -195,32 +195,29 @@ function checkUrl() {
 				opacity : 1
 			});
 		});
+		var emailColl = db.getCollection(Alloy.CFG.collection.email);
+		emailColl.clear();
+		db.commit(emailColl);
+		var cards = feedbackColl.findAll();
+		for (var i in cards) {
+			updateCardWithNoFeedback(cards[i].card_id, false);
+		}
+		feedbackColl.clear();
+		db.commit(feedbackColl);
 		http.request({
 			url : "http://vcclamresearch.com:88/SurveyService.svc/validate/".concat(email),
 			format : "JSON",
 			success : function(result) {
-
-				var emailColl = db.getCollection(Alloy.CFG.collection.email);
-				emailColl.clear();
-
-				var cards = feedbackColl.findAll();
-				for (var i in cards) {
-					updateCardWithNoFeedback(cards[i].card_id, false);
-				}
-				feedbackColl.clear();
-				db.commit(feedbackColl);
-
 				if (result.Result == "Success") {
 					emailColl.save({
 						email : email
 					});
+					db.commit(emailColl);
 				} else {
 					dialog.show({
 						message : result.Message
 					});
 				}
-
-				db.commit(emailColl);
 				initApp();
 			},
 			failure : function() {
@@ -480,7 +477,7 @@ function updateCardWithNoFeedback(cardId, doUpdateFlotingBar) {
 	db.commit(feedbackColl);
 	var selectedCard = $[cardId],
 	    children = selectedCard.children;
-	if (children.length > 1) {
+	if (children.length > 2) {
 		selectedCard.children[1].children[0].color = "#160C4C";
 		selectedCard.children[1].remove(selectedCard.children[1].children[1]);
 		selectedCard.children[0].image = selectedCard.imagePath;
